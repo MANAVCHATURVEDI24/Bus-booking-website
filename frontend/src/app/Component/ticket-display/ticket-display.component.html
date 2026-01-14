@@ -1,0 +1,80 @@
+<div class="ticket-modal-overlay" *ngIf="showModal && booking" (click)="closeTicketModal()">
+  <div class="ticket-modal" (click)="$event.stopPropagation()">
+    <div class="ticket-header">
+      <h2>🎫 Booking Confirmed!</h2>
+      <button class="close-btn" (click)="closeTicketModal()">×</button>
+    </div>
+    
+    <div class="ticket-content">
+      <div class="ticket-main">
+        <div class="ticket-info">
+          <div class="booking-id">
+            <strong>Booking ID:</strong> {{ booking?._id }}
+          </div>
+          
+          <div class="passenger-info">
+            <h3>Passenger Details</h3>
+            <div *ngFor="let passenger of booking?.passengerDetails" class="passenger">
+              <span>{{ passenger.name }} ({{ passenger.age }}y, {{ passenger.gender }})</span>
+            </div>
+          </div>
+          
+          <div class="journey-details">
+            <div class="journey-row">
+              <div class="departure">
+                <mat-icon>flight_takeoff</mat-icon>
+                <div>
+                  <strong>{{ booking?.departureDetails?.city }}</strong>
+                  <div class="time">{{ formatTime(booking?.departureDetails?.time) }}</div>
+                  <div class="date">{{ formatDate(booking?.departureDetails?.date) }}</div>
+                </div>
+              </div>
+              
+              <div class="journey-arrow">
+                <mat-icon>arrow_forward</mat-icon>
+                <div class="duration">{{ booking?.duration }}</div>
+              </div>
+              
+              <div class="arrival">
+                <mat-icon>flight_land</mat-icon>
+                <div>
+                  <strong>{{ booking?.arrivalDetails?.city }}</strong>
+                  <div class="time">{{ formatTime(booking?.arrivalDetails?.time) }}</div>
+                  <div class="date">{{ formatDate(booking?.arrivalDetails?.date) }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="seat-fare-info">
+            <div class="seats">
+              <strong>Seats:</strong> {{ booking?.seats?.join(', ') }}
+            </div>
+            <div class="fare">
+              <strong>Total Fare:</strong> Rs. {{ booking?.fare }}
+            </div>
+          </div>
+          
+          <div class="status">
+            <span class="status-badge" [class]="booking?.status">{{ booking?.status | titlecase }}</span>
+          </div>
+        </div>
+        
+        <div class="qr-section">
+          <img [src]="generateQRCode()" alt="QR Code" class="qr-code">
+          <p>Show this QR code at boarding</p>
+        </div>
+      </div>
+      
+      <div class="ticket-actions">
+        <button class="download-btn" (click)="downloadTicket()">
+          <mat-icon>download</mat-icon>
+          Download Ticket
+        </button>
+        <button class="close-btn-secondary" (click)="closeTicketModal()">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

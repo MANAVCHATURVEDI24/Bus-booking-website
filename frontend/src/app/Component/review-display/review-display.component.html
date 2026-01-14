@@ -1,0 +1,201 @@
+<div class="review-display bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+  <!-- Review Summary -->
+  <div *ngIf="showSummary && reviewSummary" class="review-summary mb-8">
+    <div class="flex items-center justify-between mb-6">
+      <h3 class="text-xl font-bold text-gray-900 dark:text-white">{{ 'review.customerReviews' | translate }}</h3>
+      <div class="flex items-center gap-2">
+        <app-star-rating 
+          [rating]="reviewSummary.averageRating" 
+          [readonly]="true" 
+          size="medium">
+        </app-star-rating>
+        <span class="text-sm text-gray-600 dark:text-gray-400">
+          ({{ reviewSummary.totalReviews }} {{ 'bus.reviews' | translate }})
+        </span>
+      </div>
+    </div>
+
+    <!-- Rating Distribution -->
+    <div class="rating-distribution mb-6">
+      <div *ngFor="let rating of [5,4,3,2,1]" class="flex items-center gap-3 mb-2">
+        <span class="text-sm font-medium text-gray-700 dark:text-gray-300 w-8">
+          {{ rating }}★
+        </span>
+        <div class="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+          <div 
+            class="bg-yellow-400 h-2 rounded-full transition-all duration-300"
+            [style.width.%]="getRatingDistributionPercentage(getRatingCount(rating))">
+          </div>
+        </div>
+        <span class="text-sm text-gray-600 dark:text-gray-400 w-8">
+          {{ getRatingCount(rating) }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Category Averages -->
+    <div class="category-averages grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
+      <div class="text-center">
+        <div class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ 'review.punctuality' | translate }}</div>
+        <app-star-rating 
+          [rating]="reviewSummary.categoryAverages.punctuality" 
+          [readonly]="true" 
+          size="small">
+        </app-star-rating>
+      </div>
+      <div class="text-center">
+        <div class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ 'review.cleanliness' | translate }}</div>
+        <app-star-rating 
+          [rating]="reviewSummary.categoryAverages.cleanliness" 
+          [readonly]="true" 
+          size="small">
+        </app-star-rating>
+      </div>
+      <div class="text-center">
+        <div class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ 'review.comfort' | translate }}</div>
+        <app-star-rating 
+          [rating]="reviewSummary.categoryAverages.comfort" 
+          [readonly]="true" 
+          size="small">
+        </app-star-rating>
+      </div>
+      <div class="text-center">
+        <div class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ 'review.staff' | translate }}</div>
+        <app-star-rating 
+          [rating]="reviewSummary.categoryAverages.staff" 
+          [readonly]="true" 
+          size="small">
+        </app-star-rating>
+      </div>
+      <div class="text-center">
+        <div class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ 'review.value' | translate }}</div>
+        <app-star-rating 
+          [rating]="reviewSummary.categoryAverages.value" 
+          [readonly]="true" 
+          size="small">
+        </app-star-rating>
+      </div>
+    </div>
+  </div>
+
+  <!-- Individual Reviews -->
+  <div class="reviews-list">
+    <div *ngIf="loading" class="text-center py-8">
+      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
+      <p class="text-gray-600 dark:text-gray-400 mt-2">{{ 'common.loading' | translate }}</p>
+    </div>
+
+    <div *ngIf="!loading && reviews.length === 0" class="text-center py-8">
+      <i class="fa-regular fa-comment text-4xl text-gray-400 mb-4"></i>
+      <p class="text-gray-600 dark:text-gray-400">{{ 'review.noReviews' | translate }}</p>
+    </div>
+
+    <div *ngIf="!loading && reviews.length > 0">
+      <div *ngFor="let review of getDisplayedReviews()" 
+           class="review-item border-b border-gray-200 dark:border-gray-700 pb-6 mb-6 last:border-b-0">
+        
+        <!-- Review Header -->
+        <div class="flex items-start justify-between mb-3">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
+              <span class="text-white font-semibold text-sm">
+                {{ review.customerName.charAt(0).toUpperCase() }}
+              </span>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <h4 class="font-semibold text-gray-900 dark:text-white">{{ review.customerName }}</h4>
+                <span *ngIf="review.verified" 
+                      class="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-xs px-2 py-1 rounded-full">
+                  <i class="fa-solid fa-check mr-1"></i>Verified
+                </span>
+              </div>
+              <div class="flex items-center gap-2 mt-1">
+                <app-star-rating 
+                  [rating]="review.rating" 
+                  [readonly]="true" 
+                  size="small">
+                </app-star-rating>
+                <span class="text-sm text-gray-500 dark:text-gray-400">
+                  {{ getTimeAgo(review.reviewDate) }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review Content -->
+        <div class="ml-13">
+          <p class="text-gray-700 dark:text-gray-300 mb-4">{{ review.reviewText }}</p>
+          
+          <!-- Category Ratings -->
+          <div class="category-ratings grid grid-cols-2 md:grid-cols-5 gap-3 mb-4 text-xs">
+            <div>
+              <span class="text-gray-600 dark:text-gray-400">Punctuality:</span>
+              <app-star-rating 
+                [rating]="review.categories.punctuality" 
+                [readonly]="true" 
+                size="small">
+              </app-star-rating>
+            </div>
+            <div>
+              <span class="text-gray-600 dark:text-gray-400">Cleanliness:</span>
+              <app-star-rating 
+                [rating]="review.categories.cleanliness" 
+                [readonly]="true" 
+                size="small">
+              </app-star-rating>
+            </div>
+            <div>
+              <span class="text-gray-600 dark:text-gray-400">Comfort:</span>
+              <app-star-rating 
+                [rating]="review.categories.comfort" 
+                [readonly]="true" 
+                size="small">
+              </app-star-rating>
+            </div>
+            <div>
+              <span class="text-gray-600 dark:text-gray-400">Staff:</span>
+              <app-star-rating 
+                [rating]="review.categories.staff" 
+                [readonly]="true" 
+                size="small">
+              </app-star-rating>
+            </div>
+            <div>
+              <span class="text-gray-600 dark:text-gray-400">Value:</span>
+              <app-star-rating 
+                [rating]="review.categories.value" 
+                [readonly]="true" 
+                size="small">
+              </app-star-rating>
+            </div>
+          </div>
+
+          <!-- Review Actions -->
+          <div class="flex items-center gap-4 text-sm">
+            <button 
+              (click)="markHelpful(review._id!)"
+              class="flex items-center gap-1 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+              <i class="fa-regular fa-thumbs-up"></i>
+              Helpful ({{ review.helpful }})
+            </button>
+            <span class="text-gray-400">•</span>
+            <span class="text-gray-600 dark:text-gray-400">
+              Journey: {{ review.journeyDate | date:'MMM dd, yyyy' }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Show More/Less Button -->
+      <div *ngIf="reviews.length > maxReviews" class="text-center mt-6">
+        <button 
+          (click)="toggleShowAllReviews()"
+          class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors">
+          {{ showAllReviews ? 'Show Less' : 'Show All Reviews (' + reviews.length + ')' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

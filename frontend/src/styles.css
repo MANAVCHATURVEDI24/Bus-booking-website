@@ -1,0 +1,698 @@
+/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Theme Variables */
+:root {
+  /* Light theme colors */
+  --primary-bg: #ffffff;
+  --secondary-bg: #f8f9fa;
+  --card-bg: #ffffff;
+  --text-primary: #1f2937;
+  --text-secondary: #6b7280;
+  --border-color: #e5e7eb;
+  --shadow: rgba(0, 0, 0, 0.1);
+  --main-color: #dc2626;
+  --main-color-hover: #b91c1c;
+}
+
+html, body { 
+  height: 100%; 
+  margin: 0;
+  padding: 0;
+  background-color: var(--primary-bg);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body { 
+  margin: 0; 
+  font-family: Roboto, "Helvetica Neue", sans-serif; 
+  background-color: var(--primary-bg);
+  color: var(--text-primary);
+}
+
+/* Light Theme */
+.light-theme {
+  --primary-bg: #ffffff;
+  --secondary-bg: #f8f9fa;
+  --card-bg: #ffffff;
+  --text-primary: #1f2937;
+  --text-secondary: #6b7280;
+  --border-color: #e5e7eb;
+  --shadow: rgba(0, 0, 0, 0.1);
+  --main-color: #dc2626;
+  --main-color-hover: #b91c1c;
+  --input-bg: #ffffff;
+  --input-text: #1f2937;
+  --button-text: #ffffff;
+  --link-color: #dc2626;
+}
+
+/* Dark Theme */
+.dark-theme {
+  --primary-bg: #111827;
+  --secondary-bg: #1f2937;
+  --card-bg: #374151;
+  --text-primary: #f9fafb;
+  --text-secondary: #d1d5db;
+  --border-color: #6b7280;
+  --shadow: rgba(0, 0, 0, 0.5);
+  --main-color: #ef4444;
+  --main-color-hover: #dc2626;
+  --input-bg: #374151;
+  --input-text: #f9fafb;
+  --button-text: #ffffff;
+  --link-color: #f87171;
+}
+
+/* Ensure app loads properly */
+app-root {
+  display: block;
+  min-height: 100vh;
+  background-color: var(--primary-bg);
+}
+
+/* Main color utility */
+.bg-main-color {
+  background-color: var(--main-color) !important;
+}
+
+.text-main-color {
+  color: var(--main-color) !important;
+}
+
+.border-main-color {
+  border-color: var(--main-color) !important;
+}
+
+/* Fix navbar styling */
+nav {
+  background-color: var(--card-bg) !important;
+  color: var(--text-primary) !important;
+  box-shadow: 0 1px 3px 0 var(--shadow), 0 1px 2px 0 var(--shadow) !important;
+}
+
+nav p, nav span, nav a {
+  color: var(--text-primary) !important;
+}
+
+nav .text-white {
+  color: var(--button-text) !important;
+}
+
+nav .text-black {
+  color: var(--text-primary) !important;
+}
+
+nav .sm\\:text-black {
+  color: var(--text-primary) !important;
+}
+
+/* Fix hero section */
+.hero-section {
+  background: linear-gradient(135deg, var(--main-color), #ef4444) !important;
+  color: white !important;
+}
+
+.hero-section h1, .hero-section h2, .hero-section h3, .hero-section p, .hero-section span {
+  color: white !important;
+}
+
+/* Fix search form */
+.search-form {
+  background: var(--card-bg) !important;
+  border-radius: 1.5rem !important;
+  box-shadow: 0 10px 15px -3px var(--shadow), 0 4px 6px -2px var(--shadow) !important;
+}
+
+.search-form input {
+  background: var(--input-bg) !important;
+  color: var(--input-text) !important;
+  border: 1px solid var(--border-color) !important;
+  outline: none !important;
+}
+
+.search-form input::placeholder {
+  color: var(--text-secondary) !important;
+}
+
+.search-form label, .search-form span, .search-form p {
+  color: var(--text-primary) !important;
+}
+
+/* Fix language selector */
+.language-selector {
+  background: var(--card-bg) !important;
+  padding: 20px !important;
+  border-radius: 15px !important;
+  border: 3px solid var(--main-color) !important;
+  margin: 20px !important;
+  box-shadow: 0 10px 30px var(--shadow) !important;
+}
+
+.language-selector h2, .language-selector h3, .language-selector p, .language-selector span {
+  color: var(--text-primary) !important;
+}
+
+.language-selector button {
+  padding: 12px 20px !important;
+  border: none !important;
+  border-radius: 8px !important;
+  font-weight: bold !important;
+  cursor: pointer !important;
+  font-size: 16px !important;
+  box-shadow: 0 4px 8px var(--shadow) !important;
+  color: var(--button-text) !important;
+  background-color: var(--main-color) !important;
+}
+
+.language-selector button:hover {
+  background-color: var(--main-color-hover) !important;
+}
+
+/* Fix offers section */
+.offers-section {
+  background: var(--card-bg) !important;
+  border-radius: 1.5rem !important;
+  box-shadow: 0 25px 50px -12px var(--shadow) !important;
+}
+
+.offers-section h1, .offers-section h2, .offers-section h3, .offers-section h4, .offers-section h5, .offers-section h6 {
+  color: var(--text-primary) !important;
+}
+
+.offers-section p, .offers-section span, .offers-section div {
+  color: var(--text-primary) !important;
+}
+
+/* Fix FAQ section */
+.faq-item {
+  background: var(--card-bg) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 1rem !important;
+  color: var(--text-primary) !important;
+}
+
+.faq-item:hover {
+  background: var(--secondary-bg) !important;
+}
+
+.faq-item h1, .faq-item h2, .faq-item h3, .faq-item h4, .faq-item h5, .faq-item h6 {
+  color: var(--text-primary) !important;
+}
+
+.faq-item p, .faq-item span, .faq-item div {
+  color: var(--text-primary) !important;
+}
+
+/* Fix footer */
+footer {
+  background: var(--card-bg) !important;
+  color: var(--text-primary) !important;
+}
+
+footer h1, footer h2, footer h3, footer h4, footer h5, footer h6 {
+  color: var(--text-primary) !important;
+}
+
+footer p, footer span, footer div, footer a {
+  color: var(--text-primary) !important;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar{
+    background: var(--secondary-bg);
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-secondary);
+}
+
+/* Input styling */
+input, textarea, select {
+  background-color: var(--input-bg) !important;
+  color: var(--input-text) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+input::placeholder, textarea::placeholder {
+  color: var(--text-secondary) !important;
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: var(--main-color) !important;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2) !important;
+}
+
+/* Button styling */
+button {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+/* Link styling */
+a {
+  color: var(--link-color) !important;
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--main-color-hover) !important;
+}
+
+/* Card and container styling */
+.card, .mat-card {
+  background-color: var(--card-bg) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+/* General text elements */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-primary) !important;
+}
+
+p, span, div, label {
+  color: var(--text-primary) !important;
+}
+
+/* Specific text color overrides */
+.text-gray-600, .text-gray-700, .text-gray-800, .text-gray-900 {
+  color: var(--text-primary) !important;
+}
+
+.text-gray-400, .text-gray-500 {
+  color: var(--text-secondary) !important;
+}
+
+/* Material Design overrides for dark theme */
+.mat-toolbar {
+  background-color: var(--card-bg) !important;
+  color: var(--text-primary) !important;
+}
+
+.mat-button, .mat-raised-button, .mat-flat-button {
+  color: var(--text-primary) !important;
+}
+
+.mat-form-field {
+  color: var(--text-primary) !important;
+}
+
+.mat-form-field .mat-input-element {
+  color: var(--input-text) !important;
+  background-color: var(--input-bg) !important;
+}
+
+.mat-form-field-label {
+  color: var(--text-secondary) !important;
+}
+
+.mat-menu-panel {
+  background-color: var(--card-bg) !important;
+}
+
+.mat-menu-item {
+  color: var(--text-primary) !important;
+}
+
+.mat-menu-item:hover {
+  background-color: var(--secondary-bg) !important;
+}
+
+/* Table styling */
+table, .mat-table {
+  background-color: var(--card-bg) !important;
+  color: var(--text-primary) !important;
+}
+
+th, td, .mat-header-cell, .mat-cell {
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+/* Modal and dialog styling */
+.mat-dialog-container {
+  background-color: var(--card-bg) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Icon styling */
+.mat-icon {
+  color: var(--text-primary) !important;
+}
+
+/* Smooth transitions for all elements */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Force text visibility in all containers */
+.container, .wrapper, .content, .main, .section {
+  color: var(--text-primary) !important;
+}
+
+.container *, .wrapper *, .content *, .main *, .section * {
+  color: inherit !important;
+}
+
+/* Ensure all text elements are visible */
+.SingleTrip, .booking-header, .booking-id, .booking-status, .trip-timing,
+.journey-info, .route-info, .fare-seats-info, .trip-actions, .passenger-card {
+  color: var(--text-primary) !important;
+}
+
+.SingleTrip *, .booking-header *, .booking-id *, .booking-status *, .trip-timing *,
+.journey-info *, .route-info *, .fare-seats-info *, .trip-actions *, .passenger-card * {
+  color: var(--text-primary) !important;
+}
+
+/* Responsive fixes */
+@media (max-width: 768px) {
+  .search-form {
+    margin: 1rem !important;
+    border-radius: 1rem !important;
+  }
+  
+  .language-selector {
+    margin: 10px !important;
+    padding: 15px !important;
+  }
+  
+  .language-selector button {
+    padding: 10px 15px !important;
+    font-size: 14px !important;
+  }
+}
+
+/* Tailwind CSS overrides for dark mode */
+.dark-theme .text-black {
+  color: var(--text-primary) !important;
+}
+
+.dark-theme .text-white {
+  color: var(--text-primary) !important;
+}
+
+.dark-theme .text-gray-900 {
+  color: var(--text-primary) !important;
+}
+
+.dark-theme .text-gray-800 {
+  color: var(--text-primary) !important;
+}
+
+.dark-theme .text-gray-700 {
+  color: var(--text-primary) !important;
+}
+
+.dark-theme .text-gray-600 {
+  color: var(--text-secondary) !important;
+}
+
+.dark-theme .text-gray-500 {
+  color: var(--text-secondary) !important;
+}
+
+.dark-theme .text-gray-400 {
+  color: var(--text-secondary) !important;
+}
+
+.dark-theme .bg-white {
+  background-color: var(--card-bg) !important;
+}
+
+.dark-theme .bg-gray-50 {
+  background-color: var(--secondary-bg) !important;
+}
+
+.dark-theme .bg-gray-100 {
+  background-color: var(--secondary-bg) !important;
+}
+
+.dark-theme .border-gray-200 {
+  border-color: var(--border-color) !important;
+}
+
+.dark-theme .border-gray-300 {
+  border-color: var(--border-color) !important;
+}
+
+/* Force visibility for specific components */
+.dark-theme .my-trips-container,
+.dark-theme .bookings-list,
+.dark-theme .SingleTrip,
+.dark-theme .booking-header,
+.dark-theme .journey-info,
+.dark-theme .passenger-card {
+  background-color: var(--card-bg) !important;
+  color: var(--text-primary) !important;
+}
+
+.dark-theme .my-trips-container *,
+.dark-theme .bookings-list *,
+.dark-theme .SingleTrip *,
+.dark-theme .booking-header *,
+.dark-theme .journey-info *,
+.dark-theme .passenger-card * {
+  color: var(--text-primary) !important;
+}
+
+/* Landing page specific fixes */
+.dark-theme .landing-page,
+.dark-theme .hero-section {
+  background-color: var(--primary-bg) !important;
+}
+
+.dark-theme .landing-page h1,
+.dark-theme .landing-page h2,
+.dark-theme .landing-page h3,
+.dark-theme .landing-page p,
+.dark-theme .landing-page span {
+  color: var(--text-primary) !important;
+}
+
+/* Profile page fixes */
+.dark-theme .profile-page,
+.dark-theme .profile-container {
+  background-color: var(--primary-bg) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Bus selection page fixes */
+.dark-theme .selectbus-page,
+.dark-theme .bus-list,
+.dark-theme .bus-item {
+  background-color: var(--primary-bg) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Payment page fixes */
+.dark-theme .payment-page,
+.dark-theme .payment-form {
+  background-color: var(--primary-bg) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Ensure all text is visible with high contrast */
+.dark-theme {
+  --text-contrast-ratio: 7:1; /* WCAG AAA compliance */
+}
+
+.light-theme {
+  --text-contrast-ratio: 7:1; /* WCAG AAA compliance */
+}
+
+/* Override any remaining invisible text */
+.dark-theme * {
+  color: var(--text-primary) !important;
+}
+
+.dark-theme .text-white,
+.dark-theme .text-black {
+  color: var(--text-primary) !important;
+}
+
+/* Specific component overrides */
+.dark-theme mat-icon {
+  color: var(--text-primary) !important;
+}
+
+.dark-theme .mat-button-base {
+  color: var(--text-primary) !important;
+}
+
+.dark-theme .mat-menu-content {
+  background-color: var(--card-bg) !important;
+}
+
+.dark-theme .mat-menu-content .mat-menu-item {
+  color: var(--text-primary) !important;
+}
+
+/* Utility classes for text visibility */
+.theme-text-primary {
+  color: var(--text-primary) !important;
+}
+
+.theme-text-secondary {
+  color: var(--text-secondary) !important;
+}
+
+.theme-bg-primary {
+  background-color: var(--primary-bg) !important;
+}
+
+.theme-bg-card {
+  background-color: var(--card-bg) !important;
+}
+
+.theme-border {
+  border-color: var(--border-color) !important;
+}
+
+/* Emergency text visibility fix - apply to any component with visibility issues */
+.force-text-visible {
+  color: var(--text-primary) !important;
+}
+
+.force-text-visible * {
+  color: var(--text-primary) !important;
+}
+
+.force-bg-themed {
+  background-color: var(--card-bg) !important;
+}
+
+/* High contrast mode for accessibility */
+.high-contrast .dark-theme {
+  --text-primary: #ffffff !important;
+  --text-secondary: #f3f4f6 !important;
+  --card-bg: #1f2937 !important;
+  --primary-bg: #111827 !important;
+}
+
+.high-contrast .light-theme {
+  --text-primary: #000000 !important;
+  --text-secondary: #374151 !important;
+  --card-bg: #ffffff !important;
+  --primary-bg: #f9fafb !important;
+}
+
+/* Debug mode - shows all text elements with colored backgrounds */
+.debug-text-visibility .dark-theme * {
+  background-color: rgba(255, 0, 0, 0.1) !important;
+  outline: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+.debug-text-visibility .light-theme * {
+  background-color: rgba(0, 0, 255, 0.1) !important;
+  outline: 1px solid rgba(0, 0, 0, 0.3) !important;
+}
+/* Dark Mode Text Visibility Fix - Moved from separate file */
+
+/* Ensure all text elements are visible in dark mode */
+.dark-theme {
+  /* High contrast colors for better visibility */
+  --text-primary: #ffffff !important;
+  --text-secondary: #e5e7eb !important;
+  --text-muted: #d1d5db !important;
+}
+
+/* Force text color on all elements */
+.dark-theme * {
+  color: var(--text-primary) !important;
+}
+
+/* Specific overrides for common elements */
+.dark-theme h1, .dark-theme h2, .dark-theme h3, 
+.dark-theme h4, .dark-theme h5, .dark-theme h6 {
+  color: var(--text-primary) !important;
+}
+
+.dark-theme p, .dark-theme span, .dark-theme div, 
+.dark-theme label, .dark-theme a {
+  color: var(--text-primary) !important;
+}
+
+/* Button text visibility */
+.dark-theme button {
+  color: var(--text-primary) !important;
+}
+
+.dark-theme button:not(.bg-main-color):not(.text-main-color) {
+  background-color: var(--card-bg) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+/* Input field visibility */
+.dark-theme input, .dark-theme textarea, .dark-theme select {
+  color: var(--text-primary) !important;
+  background-color: var(--card-bg) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+.dark-theme input::placeholder, 
+.dark-theme textarea::placeholder {
+  color: var(--text-secondary) !important;
+}
+
+/* Material Design specific fixes */
+.dark-theme .mat-toolbar {
+  background-color: var(--card-bg) !important;
+  color: var(--text-primary) !important;
+}
+
+.dark-theme .mat-button, .dark-theme .mat-raised-button {
+  color: var(--text-primary) !important;
+}
+
+.dark-theme .mat-form-field-label {
+  color: var(--text-secondary) !important;
+}
+
+.dark-theme .mat-input-element {
+  color: var(--text-primary) !important;
+}
+
+.dark-theme .mat-menu-panel {
+  background-color: var(--card-bg) !important;
+}
+
+.dark-theme .mat-menu-item {
+  color: var(--text-primary) !important;
+}
+
+/* Component-specific fixes */
+.dark-theme .SingleTrip {
+  background-color: var(--card-bg) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+.dark-theme .booking-header, .dark-theme .journey-info, 
+.dark-theme .passenger-card {
+  color: var(--text-primary) !important;
+}
+
+.dark-theme .my-trips-container {
+  background-color: var(--primary-bg) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Force visibility on any remaining elements */
+.dark-theme *:not(.bg-main-color):not(.text-main-color) {
+  color: var(--text-primary) !important;
+}

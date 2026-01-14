@@ -1,0 +1,140 @@
+<div class="notification-preferences">
+  <div class="preferences-header">
+    <h2>Notification Preferences</h2>
+    <p>Choose how you want to receive notifications</p>
+  </div>
+
+  <form [formGroup]="preferencesForm" (ngSubmit)="onSave()">
+    <!-- Loading State -->
+    <div class="loading-container" *ngIf="isLoading">
+      <div class="loading-spinner"></div>
+      <p>Loading preferences...</p>
+    </div>
+
+    <!-- Preferences Form -->
+    <div class="preferences-content" *ngIf="!isLoading">
+      <!-- Notification Channels -->
+      <div class="preference-section">
+        <h3>Notification Channels</h3>
+        <p class="section-description">Select how you want to receive notifications</p>
+        
+        <div class="preference-group">
+          <div class="preference-item">
+            <mat-slide-toggle formControlName="email" color="primary">
+              <div class="toggle-content">
+                <mat-icon>email</mat-icon>
+                <div class="toggle-text">
+                  <strong>Email Notifications</strong>
+                  <span>Receive notifications via email</span>
+                </div>
+              </div>
+            </mat-slide-toggle>
+          </div>
+
+          <div class="preference-item">
+            <mat-slide-toggle formControlName="sms" color="primary">
+              <div class="toggle-content">
+                <mat-icon>sms</mat-icon>
+                <div class="toggle-text">
+                  <strong>SMS Notifications</strong>
+                  <span>Receive notifications via text message</span>
+                </div>
+              </div>
+            </mat-slide-toggle>
+          </div>
+
+          <div class="preference-item">
+            <mat-slide-toggle formControlName="push" color="primary">
+              <div class="toggle-content">
+                <mat-icon>notifications</mat-icon>
+                <div class="toggle-text">
+                  <strong>Push Notifications</strong>
+                  <span>Receive browser push notifications</span>
+                </div>
+              </div>
+            </mat-slide-toggle>
+          </div>
+
+          <div class="preference-item">
+            <mat-slide-toggle formControlName="inApp" color="primary">
+              <div class="toggle-content">
+                <mat-icon>notifications_active</mat-icon>
+                <div class="toggle-text">
+                  <strong>In-App Notifications</strong>
+                  <span>Show notifications within the app</span>
+                </div>
+              </div>
+            </mat-slide-toggle>
+          </div>
+        </div>
+      </div>
+
+      <!-- Notification Types -->
+      <div class="preference-section">
+        <h3>Notification Types</h3>
+        <p class="section-description">Choose what types of notifications you want to receive</p>
+        
+        <div class="preference-group">
+          <div class="preference-item">
+            <mat-slide-toggle formControlName="bookingUpdates" color="primary">
+              <div class="toggle-content">
+                <mat-icon>confirmation_number</mat-icon>
+                <div class="toggle-text">
+                  <strong>Booking Updates</strong>
+                  <span>Confirmations, cancellations, and changes</span>
+                </div>
+              </div>
+            </mat-slide-toggle>
+          </div>
+
+          <div class="preference-item">
+            <mat-slide-toggle formControlName="reminders" color="primary">
+              <div class="toggle-content">
+                <mat-icon>schedule</mat-icon>
+                <div class="toggle-text">
+                  <strong>Trip Reminders</strong>
+                  <span>Reminders about upcoming trips</span>
+                </div>
+              </div>
+            </mat-slide-toggle>
+          </div>
+
+          <div class="preference-item">
+            <mat-slide-toggle formControlName="promotionalOffers" color="primary">
+              <div class="toggle-content">
+                <mat-icon>local_offer</mat-icon>
+                <div class="toggle-text">
+                  <strong>Promotional Offers</strong>
+                  <span>Special deals and discounts</span>
+                </div>
+              </div>
+            </mat-slide-toggle>
+          </div>
+
+          <div class="preference-item">
+            <mat-slide-toggle formControlName="systemUpdates" color="primary">
+              <div class="toggle-content">
+                <mat-icon>system_update</mat-icon>
+                <div class="toggle-text">
+                  <strong>System Updates</strong>
+                  <span>App updates and maintenance notices</span>
+                </div>
+              </div>
+            </mat-slide-toggle>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="preferences-actions" *ngIf="!isLoading">
+      <button type="button" class="btn-secondary" (click)="onReset()">
+        Reset to Default
+      </button>
+      <button type="submit" class="btn-primary" [disabled]="isSaving || preferencesForm.invalid">
+        <span *ngIf="!isSaving">Save Preferences</span>
+        <span *ngIf="isSaving">Saving...</span>
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,443 @@
+<div class="route-planner-container">
+  <!-- Header -->
+  <div class="planner-header">
+    <div class="header-content">
+      <h1 class="title dark:text-white">
+        <i class="fa-solid fa-route mr-3"></i>
+        Interactive Route Planner
+      </h1>
+      <p class="subtitle dark:text-gray-300">Plan your journey with real-time traffic updates and waypoint optimization</p>
+    </div>
+    
+    <div class="header-actions">
+      <button 
+        class="action-btn secondary"
+        (click)="showSavedRoutes = !showSavedRoutes"
+        [class.active]="showSavedRoutes">
+        <i class="fa-solid fa-bookmark"></i>
+        Saved Routes
+      </button>
+      
+      <button 
+        class="action-btn secondary"
+        (click)="clearRoute()"
+        *ngIf="currentRoute">
+        <i class="fa-solid fa-trash"></i>
+        Clear
+      </button>
+    </div>
+  </div>
+
+  <div class="planner-content">
+    <!-- Route Planning Form -->
+    <div class="planning-panel">
+      <form [formGroup]="routePlanningForm" (ngSubmit)="planRoute()" class="route-form">
+        
+        <!-- Start Location -->
+        <div class="form-group">
+          <label class="form-label">
+            <i class="fa-solid fa-play" style="color: #22c55e !important;"></i>
+            <span>Start Location</span>
+          </label>
+          <div class="location-input-container">
+            <input 
+              type="text"
+              formControlName="startLocation"
+              placeholder="Enter starting point..."
+              class="location-input"
+              autocomplete="off">
+            
+            <div class="search-results" *ngIf="startLocationResults.length > 0">
+              <div 
+                *ngFor="let result of startLocationResults"
+                class="search-result-item"
+                (click)="selectStartLocation(result)">
+                <i class="fa-solid fa-map-marker-alt text-green-500"></i>
+                <div class="result-info">
+                  <div class="result-name">{{ result.location.name }}</div>
+                  <div class="result-address">{{ result.address }}</div>
+                </div>
+                <div class="result-confidence">{{ (result.confidence * 100) | number:'1.0-0' }}%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- End Location -->
+        <div class="form-group">
+          <label class="form-label">
+            <i class="fa-solid fa-stop" style="color: #ef4444 !important;"></i>
+            <span>End Location</span>
+          </label>
+          <div class="location-input-container">
+            <input 
+              type="text"
+              formControlName="endLocation"
+              placeholder="Enter destination..."
+              class="location-input"
+              autocomplete="off">
+            
+            <div class="search-results" *ngIf="endLocationResults.length > 0">
+              <div 
+                *ngFor="let result of endLocationResults"
+                class="search-result-item"
+                (click)="selectEndLocation(result)">
+                <i class="fa-solid fa-map-marker-alt text-red-500"></i>
+                <div class="result-info">
+                  <div class="result-name">{{ result.location.name }}</div>
+                  <div class="result-address">{{ result.address }}</div>
+                </div>
+                <div class="result-confidence">{{ (result.confidence * 100) | number:'1.0-0' }}%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Waypoints -->
+        <div class="form-group">
+          <div class="waypoints-header">
+            <label class="form-label">
+              <i class="fa-solid fa-map-pin" style="color: #3b82f6 !important;"></i>
+              <span>Waypoints ({{ waypoints.length }})</span>
+            </label>
+            <button 
+              type="button"
+              class="add-waypoint-btn"
+              (click)="addWaypoint()">
+              <i class="fa-solid fa-plus"></i>
+              Add Waypoint
+            </button>
+          </div>
+
+          <div formArrayName="waypoints" class="waypoints-list">
+            <div 
+              *ngFor="let waypoint of waypoints.controls; let i = index"
+              [formGroupName]="i"
+              class="waypoint-item">
+              
+              <div class="waypoint-number">{{ i + 1 }}</div>
+              
+              <div class="waypoint-inputs">
+                <div class="location-input-container">
+                  <input 
+                    type="text"
+                    formControlName="location"
+                    placeholder="Enter waypoint location..."
+                    class="location-input"
+                    (input)="searchWaypoint(i, $any($event.target).value)"
+                    autocomplete="off">
+                  
+                  <div class="search-results" *ngIf="waypointResults.length > 0">
+                    <div 
+                      *ngFor="let result of waypointResults"
+                      class="search-result-item"
+                      (click)="selectWaypoint(i, result)">
+                      <i class="fa-solid fa-map-marker-alt text-blue-500"></i>
+                      <div class="result-info">
+                        <div class="result-name">{{ result.location.name }}</div>
+                        <div class="result-address">{{ result.address }}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="stop-duration">
+                  <label class="duration-label">Stop Duration (min)</label>
+                  <input 
+                    type="number"
+                    formControlName="stopDuration"
+                    min="0"
+                    max="480"
+                    class="duration-input">
+                </div>
+              </div>
+              
+              <button 
+                type="button"
+                class="remove-waypoint-btn"
+                (click)="removeWaypoint(i)">
+                <i class="fa-solid fa-times"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Departure Time -->
+        <div class="form-group">
+          <label class="form-label">
+            <i class="fa-solid fa-clock" style="color: #6b7280 !important;"></i>
+            <span>Departure Time (Optional)</span>
+          </label>
+          <input 
+            type="datetime-local"
+            formControlName="departureTime"
+            class="datetime-input">
+        </div>
+
+        <!-- Route Preferences -->
+        <div class="form-group">
+          <label class="form-label">
+            <i class="fa-solid fa-cog" style="color: #6b7280 !important;"></i>
+            <span>Route Preferences</span>
+          </label>
+          
+          <div formGroupName="preferences" class="preferences-grid">
+            <!-- Vehicle Type -->
+            <div class="preference-item full-width">
+              <label class="preference-label">
+                <span>Vehicle Type</span>
+              </label>
+              <div class="vehicle-selector">
+                <div 
+                  *ngFor="let vehicle of vehicleTypes"
+                  class="vehicle-option"
+                  [class.selected]="routePlanningForm.get('preferences.vehicleType')?.value === vehicle.value"
+                  (click)="routePlanningForm.get('preferences.vehicleType')?.setValue(vehicle.value)">
+                  <i [class]="'fa-solid ' + vehicle.icon"></i>
+                  <span>{{ vehicle.label }}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Avoid Options -->
+            <div class="preference-item">
+              <label class="checkbox-label">
+                <input type="checkbox" formControlName="avoidTolls">
+                <span class="checkmark"></span>
+                <span>Avoid Tolls</span>
+              </label>
+            </div>
+
+            <div class="preference-item">
+              <label class="checkbox-label">
+                <input type="checkbox" formControlName="avoidHighways">
+                <span class="checkmark"></span>
+                <span>Avoid Highways</span>
+              </label>
+            </div>
+
+            <div class="preference-item">
+              <label class="checkbox-label">
+                <input type="checkbox" formControlName="avoidFerries">
+                <span class="checkmark"></span>
+                <span>Avoid Ferries</span>
+              </label>
+            </div>
+
+            <!-- Route Type -->
+            <div class="preference-item">
+              <label class="checkbox-label">
+                <input type="checkbox" formControlName="preferFastestRoute">
+                <span class="checkmark"></span>
+                <span>Fastest Route</span>
+              </label>
+            </div>
+
+            <div class="preference-item">
+              <label class="checkbox-label">
+                <input type="checkbox" formControlName="preferShortestRoute">
+                <span class="checkmark"></span>
+                <span>Shortest Route</span>
+              </label>
+            </div>
+
+            <div class="preference-item">
+              <label class="checkbox-label">
+                <input type="checkbox" formControlName="optimizeWaypoints">
+                <span class="checkmark"></span>
+                <span>Optimize Waypoints</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="form-actions">
+          <button 
+            type="submit"
+            class="action-btn primary"
+            [disabled]="isPlanning || routePlanningForm.invalid">
+            <span *ngIf="isPlanning" class="loading-spinner"></span>
+            <i *ngIf="!isPlanning" class="fa-solid fa-route"></i>
+            {{ isPlanning ? 'Planning Route...' : 'Plan Route' }}
+          </button>
+
+          <button 
+            type="button"
+            class="action-btn secondary"
+            (click)="optimizeRoute()"
+            [disabled]="!currentRoute || isOptimizing"
+            *ngIf="currentRoute && currentRoute.waypoints.length > 1">
+            <span *ngIf="isOptimizing" class="loading-spinner"></span>
+            <i *ngIf="!isOptimizing" class="fa-solid fa-magic"></i>
+            {{ isOptimizing ? 'Optimizing...' : 'Optimize Route' }}
+          </button>
+
+          <button 
+            type="button"
+            class="action-btn secondary"
+            (click)="saveRoute()"
+            *ngIf="currentRoute">
+            <i class="fa-solid fa-save"></i>
+            Save Route
+          </button>
+        </div>
+      </form>
+
+      <!-- Route Summary -->
+      <div class="route-summary" *ngIf="currentRoute">
+        <div class="summary-header">
+          <h3 class="summary-title">Route Summary</h3>
+          <div class="route-status" [ngClass]="getRouteStatusClass()">
+            <i class="fa-solid fa-info-circle"></i>
+            {{ trafficInfo.length > 0 ? 'Traffic Detected' : 'Clear Route' }}
+          </div>
+        </div>
+
+        <div class="summary-stats">
+          <div class="stat-item">
+            <i class="fa-solid fa-route"></i>
+            <div class="stat-info">
+              <div class="stat-value">{{ formatDistance(currentRoute.totalDistance) }}</div>
+              <div class="stat-label">Total Distance</div>
+            </div>
+          </div>
+
+          <div class="stat-item">
+            <i class="fa-solid fa-clock"></i>
+            <div class="stat-info">
+              <div class="stat-value">{{ formatDuration(currentRoute.totalDuration) }}</div>
+              <div class="stat-label">Travel Time</div>
+            </div>
+          </div>
+
+          <div class="stat-item" *ngIf="currentRoute.totalTrafficDelay > 0">
+            <i class="fa-solid fa-exclamation-triangle text-orange-500"></i>
+            <div class="stat-info">
+              <div class="stat-value">+{{ formatDuration(currentRoute.totalTrafficDelay) }}</div>
+              <div class="stat-label">Traffic Delay</div>
+            </div>
+          </div>
+
+          <div class="stat-item">
+            <i class="fa-solid fa-flag-checkered"></i>
+            <div class="stat-info">
+              <div class="stat-value">{{ currentRoute.estimatedArrival | date:'short' }}</div>
+              <div class="stat-label">Estimated Arrival</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Alternative Routes -->
+        <div class="alternatives-section" *ngIf="alternativeRoutes.length > 0">
+          <button 
+            class="alternatives-toggle"
+            (click)="showAlternatives = !showAlternatives">
+            <i class="fa-solid fa-route"></i>
+            {{ alternativeRoutes.length }} Alternative Route{{ alternativeRoutes.length > 1 ? 's' : '' }}
+            <i [class]="'fa-solid ' + (showAlternatives ? 'fa-chevron-up' : 'fa-chevron-down')"></i>
+          </button>
+
+          <div class="alternatives-list" *ngIf="showAlternatives">
+            <div 
+              *ngFor="let alt of alternativeRoutes"
+              class="alternative-item"
+              (click)="selectAlternativeRoute(alt)">
+              <div class="alt-header">
+                <span class="alt-reason">{{ alt.reason | titlecase }} Route</span>
+                <span class="alt-savings" *ngIf="alt.savings.time">
+                  {{ formatDuration(alt.savings.time) }} faster
+                </span>
+                <span class="alt-savings" *ngIf="alt.savings.distance">
+                  {{ alt.savings.distance }} km shorter
+                </span>
+              </div>
+              <div class="alt-stats">
+                <span>{{ formatDistance(alt.route.totalDistance) }}</span>
+                <span>{{ formatDuration(alt.route.totalDuration) }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Traffic Information -->
+        <div class="traffic-section" *ngIf="trafficInfo.length > 0">
+          <button 
+            class="traffic-toggle"
+            (click)="showTrafficDetails = !showTrafficDetails">
+            <i class="fa-solid fa-exclamation-triangle"></i>
+            {{ trafficInfo.length }} Traffic Alert{{ trafficInfo.length > 1 ? 's' : '' }}
+            <i [class]="'fa-solid ' + (showTrafficDetails ? 'fa-chevron-up' : 'fa-chevron-down')"></i>
+          </button>
+
+          <div class="traffic-list" *ngIf="showTrafficDetails">
+            <div 
+              *ngFor="let traffic of trafficInfo"
+              class="traffic-item"
+              [ngClass]="'severity-' + traffic.severity">
+              <i [class]="'fa-solid ' + getTrafficSeverityIcon(traffic.severity)"></i>
+              <div class="traffic-info">
+                <div class="traffic-location">{{ traffic.location.name }}</div>
+                <div class="traffic-description">{{ traffic.description }}</div>
+                <div class="traffic-delay">+{{ formatDuration(traffic.delay) }} delay</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Map Display -->
+    <div class="map-panel">
+      <app-interactive-map 
+        [route]="currentRoute"
+        [height]="'600px'"
+        [enableInteraction]="true"
+        (locationSelected)="onLocationSelected($event)"
+        (waypointAdded)="addWaypoint()">
+      </app-interactive-map>
+    </div>
+  </div>
+
+  <!-- Saved Routes Modal -->
+  <div class="modal-overlay" *ngIf="showSavedRoutes" (click)="showSavedRoutes = false">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3 class="modal-title">Saved Routes</h3>
+        <button class="modal-close" (click)="showSavedRoutes = false">
+          <i class="fa-solid fa-times"></i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="saved-routes-list" *ngIf="savedRoutes.length > 0">
+          <div 
+            *ngFor="let route of savedRoutes"
+            class="saved-route-item"
+            (click)="loadSavedRoute(route)">
+            <div class="route-info">
+              <div class="route-name">{{ route.name || 'Unnamed Route' }}</div>
+              <div class="route-details">
+                {{ route.startLocation.name }} → {{ route.endLocation.name }}
+              </div>
+              <div class="route-stats">
+                <span>{{ formatDistance(route.totalDistance) }}</span>
+                <span>{{ formatDuration(route.totalDuration) }}</span>
+                <span>{{ route.waypoints.length }} waypoints</span>
+              </div>
+            </div>
+            <div class="route-date">
+              {{ route.updatedAt | date:'short' }}
+            </div>
+          </div>
+        </div>
+
+        <div class="empty-state" *ngIf="savedRoutes.length === 0">
+          <i class="fa-solid fa-bookmark text-4xl text-gray-400 mb-4"></i>
+          <p class="text-gray-600">No saved routes yet</p>
+          <p class="text-sm text-gray-500">Plan and save routes to access them later</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

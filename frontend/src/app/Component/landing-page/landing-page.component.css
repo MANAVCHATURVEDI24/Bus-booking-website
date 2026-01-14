@@ -1,0 +1,329 @@
+/* Landing Page Component Styles - Light Theme Only */
+
+/* Hero Section */
+.hero-section {
+  background: linear-gradient(135deg, #dc2626, #ef4444) !important;
+  color: white !important;
+}
+
+/* Language Selector */
+.language-selector {
+  background: white !important;
+  padding: 20px !important;
+  border-radius: 15px !important;
+  border: 3px solid #dc2626 !important;
+  margin: 20px !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
+}
+
+.language-selector button {
+  padding: 12px 20px !important;
+  border: none !important;
+  border-radius: 8px !important;
+  font-weight: bold !important;
+  cursor: pointer !important;
+  font-size: 16px !important;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1) !important;
+  color: white !important;
+  transition: all 0.2s ease;
+}
+
+.language-selector button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2) !important;
+}
+
+/* Enhanced Search Form Styles */
+.search-form {
+  background: white !important;
+  border-radius: 1rem !important;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+  border: 1px solid #f3f4f6 !important;
+  overflow: hidden !important;
+}
+
+.search-form input {
+  background: transparent !important;
+  color: #1f2937 !important;
+  border: none !important;
+  outline: none !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+}
+
+.search-form input::placeholder {
+  color: #9ca3af !important;
+  font-weight: 400 !important;
+}
+
+.search-form input[readonly] {
+  cursor: pointer !important;
+}
+
+.search-form label {
+  color: #6b7280 !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+.search-form .fa-bus,
+.search-form .fa-location-dot,
+.search-form .fa-calendar-days {
+  color: #9ca3af !important;
+  font-size: 16px !important;
+}
+
+.search-form .fa-arrows-rotate {
+  color: #6b7280 !important;
+}
+
+/* Search Button Enhanced */
+.search-form button {
+  background: linear-gradient(135deg, #dc2626, #b91c1c) !important;
+  color: white !important;
+  border: none !important;
+  font-weight: 700 !important;
+  font-size: 13px !important;
+  letter-spacing: 0.5px !important;
+  transition: all 0.3s ease !important;
+  cursor: pointer !important;
+  height: 64px !important;
+}
+
+.search-form button:hover {
+  background: linear-gradient(135deg, #b91c1c, #991b1b) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 10px 15px -3px rgba(220, 38, 38, 0.3) !important;
+}
+
+.search-form button:active {
+  transform: translateY(0) !important;
+}
+
+/* Section Dividers */
+.search-form > div:not(:last-child) {
+  border-right: 1px solid #f3f4f6 !important;
+}
+
+/* Hover Effects */
+.search-form > div:not(:last-child):hover {
+  background-color: #fafafa !important;
+}
+
+/* Responsive Design for Search Form */
+@media (max-width: 1024px) {
+  .search-form {
+    flex-direction: column !important;
+    border-radius: 1rem !important;
+  }
+  
+  .search-form > div:not(:last-child) {
+    border-right: none !important;
+    border-bottom: 1px solid #f3f4f6 !important;
+  }
+  
+  .search-form button {
+    height: 56px !important;
+    border-radius: 0 0 1rem 1rem !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .search-form {
+    width: 95% !important;
+    margin: 1rem auto !important;
+  }
+  
+  .search-form > div {
+    padding: 1rem !important;
+  }
+  
+  .search-form button {
+    height: 52px !important;
+    font-size: 12px !important;
+  }
+}
+
+/* Offers Section */
+.offers-section {
+  background: white !important;
+  border-radius: 1.5rem !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+}
+
+/* Interactive Route Planning Section */
+.route-planning-section {
+  background: white !important;
+  border-radius: 1.5rem !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+}
+
+.route-planning-section .bg-gradient-to-br {
+  background: linear-gradient(to bottom right, #eff6ff, #f0fdf4) !important;
+}
+
+.route-planning-section .bg-blue-50 {
+  background: #eff6ff !important;
+}
+
+.route-planning-section .bg-green-50 {
+  background: #f0fdf4 !important;
+}
+
+.route-planning-section .bg-blue-100 {
+  background: #dbeafe !important;
+}
+
+.route-planning-section .bg-green-100 {
+  background: #dcfce7 !important;
+}
+
+.route-planning-section .bg-purple-100 {
+  background: #f3e8ff !important;
+}
+
+.route-planning-section .bg-orange-100 {
+  background: #fed7aa !important;
+}
+
+/* FAQ Section */
+.faq-item {
+  background: white !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 1rem !important;
+  transition: all 0.2s ease;
+}
+
+.faq-item:hover {
+  background: #f8fafc !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Text Colors */
+.text-gray-600 {
+  color: #4b5563 !important;
+}
+
+.text-gray-700 {
+  color: #374151 !important;
+}
+
+.text-gray-800 {
+  color: #1f2937 !important;
+}
+
+.text-gray-900 {
+  color: #111827 !important;
+}
+
+/* Button Styles */
+.btn-primary {
+  background: #dc2626 !important;
+  color: white !important;
+  border: none !important;
+  padding: 0.75rem 1.5rem !important;
+  border-radius: 0.5rem !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background: #b91c1c !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .language-selector {
+    margin: 10px !important;
+    padding: 15px !important;
+  }
+  
+  .language-selector button {
+    padding: 10px 15px !important;
+    font-size: 14px !important;
+  }
+}
+
+/* Search Bar - Exact Match Design */
+.travel-search-section {
+  background: white !important;
+  border-radius: 0.5rem !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+  border: 1px solid #e5e7eb !important;
+  overflow: hidden !important;
+  height: 56px !important;
+}
+
+.travel-search-section input {
+  background: transparent !important;
+  color: #1f2937 !important;
+  border: none !important;
+  outline: none !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  height: auto !important;
+}
+
+.travel-search-section input::placeholder {
+  color: transparent !important;
+}
+
+.travel-search-section input[readonly] {
+  cursor: pointer !important;
+}
+
+.travel-search-section .text-xs {
+  color: #6b7280 !important;
+  font-size: 0.75rem !important;
+  font-weight: 500 !important;
+  margin-bottom: 2px !important;
+}
+
+.travel-search-section .fa-bus,
+.travel-search-section .fa-location-dot,
+.travel-search-section .fa-person-walking,
+.travel-search-section .fa-calendar-days {
+  color: #9ca3af !important;
+  font-size: 1rem !important;
+}
+
+/* Search Button - Exact Match */
+.travel-search-section button {
+  background: #dc2626 !important;
+  color: white !important;
+  border: none !important;
+  font-weight: 700 !important;
+  font-size: 0.875rem !important;
+  letter-spacing: 0.025em !important;
+  transition: background-color 0.2s ease !important;
+  cursor: pointer !important;
+  height: 56px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.travel-search-section button:hover {
+  background: #b91c1c !important;
+}
+
+/* Section Borders */
+.travel-search-section > div:not(:last-child) {
+  border-right: 1px solid #e5e7eb !important;
+}
+
+/* Ensure proper height and alignment */
+.travel-search-section .flex-1 {
+  height: 56px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.travel-search-section .h-14 {
+  height: 56px !important;
+}

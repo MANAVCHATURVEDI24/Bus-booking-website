@@ -1,0 +1,178 @@
+<div class="my-trips-container">
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p>Loading your bookings...</p>
+  </div>
+
+  <!-- No Bookings State -->
+  <div *ngIf="!isLoading && userBookings.length === 0" class="no-bookings">
+    <mat-icon class="no-bookings-icon">flight_takeoff</mat-icon>
+    <h3>No trips found</h3>
+    <p>You haven't booked any trips yet. Start planning your journey!</p>
+    <button class="book-now-btn" routerLink="/">Book Now</button>
+  </div>
+
+  <!-- Trip Tabs and Content -->
+  <div *ngIf="!isLoading && userBookings.length > 0" class="trips-content">
+    <!-- Tab Navigation -->
+    <div class="trip-tabs">
+      <button 
+        class="tab-button" 
+        [class.active]="currentTab === 'all'"
+        (click)="setCurrentTab('all')">
+        All Trips ({{ userBookings.length }})
+      </button>
+      <button 
+        class="tab-button" 
+        [class.active]="currentTab === 'upcoming'"
+        (click)="setCurrentTab('upcoming')">
+        Upcoming ({{ upcomingTrips.length }})
+      </button>
+      <button 
+        class="tab-button" 
+        [class.active]="currentTab === 'completed'"
+        (click)="setCurrentTab('completed')">
+        Completed ({{ completedTrips.length }})
+      </button>
+    </div>
+
+    <!-- Bookings List -->
+    <div class="bookings-list">
+      <!-- Debug info (remove in production) -->
+      <div class="debug-info" style="background: #f0f0f0; padding: 10px; margin-bottom: 10px; border-radius: 5px;">
+        <small>
+          Debug: Showing {{ getDisplayedTrips().length }} trips for "{{ currentTab }}" tab
+          (Total: {{ userBookings.length }}, Upcoming: {{ upcomingTrips.length }}, Completed: {{ completedTrips.length }})
+        </small>
+      </div>
+      
+      <div class="SingleTrip" *ngFor="let booking of getDisplayedTrips(); let i = index; trackBy: trackByBookingId">
+        <div class="booking-header">
+          <div class="booking-id">Booking ID: {{ booking?._id || 'N/A' }} (Index: {{ i }})</div>
+          <div class="booking-status-info">
+            <div class="booking-status" [ngClass]="getBookingStatusClass(booking?.status)">
+              {{ booking?.status | titlecase }}
+            </div>
+            <div class="trip-timing">{{ getTripStatusText(booking) }}</div>
+          </div>
+        </div>
+
+        <div class="SingleTrip__image">
+          <img [src]="randomimage" alt="bus" />
+        </div>
+        
+        <div style="display: flex; justify-content: space-evenly">
+          <div class="SingleTrip__busdetails">
+            <div class="heading" style="font-weight: 600; font-size: large;">Journey Details</div>
+            
+            <div class="journey-info">
+              <div class="route-info">
+                <p>
+                  <mat-icon>flight_takeoff</mat-icon> 
+                  <strong>From:</strong> {{ booking?.departureDetails?.city || 'N/A' }}
+                </p>
+                <p>
+                  <mat-icon>schedule</mat-icon> 
+                  <strong>Departure:</strong> {{ booking?.departureDetails?.time || 'N/A' }}:00 hrs
+                </p>
+                <p>
+                  <mat-icon>date_range</mat-icon> 
+                  <strong>Date:</strong> {{ booking?.departureDetails?.date || 'N/A' }}
+                </p>
+              </div>
+              
+              <div class="route-info">
+                <p>
+                  <mat-icon>flight_land</mat-icon> 
+                  <strong>To:</strong> {{ booking?.arrivalDetails?.city || 'N/A' }}
+                </p>
+                <p>
+                  <mat-icon>schedule</mat-icon> 
+                  <strong>Arrival:</strong> {{ booking?.arrivalDetails?.time || 'N/A' }}:00 hrs
+                </p>
+                <p>
+                  <mat-icon>access_time</mat-icon> 
+                  <strong>Duration:</strong> {{ booking?.duration || 'N/A' }}
+                </p>
+              </div>
+            </div>
+            
+            <div class="fare-seats-info">
+              <p>
+                <mat-icon>event_seat</mat-icon> 
+                <strong>Seats:</strong> {{ booking?.seats?.join(', ') || 'N/A' }}
+              </p>
+              <p>
+                <mat-icon>currency_rupee</mat-icon> 
+                <strong>Total Fare:</strong> Rs. {{ booking?.fare || 'N/A' }}
+              </p>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="trip-actions">
+              <button class="view-ticket-btn" (click)="viewTicket(booking)">
+                <mat-icon>confirmation_number</mat-icon>
+                View Ticket
+              </button>
+              
+              <!-- Review Button for Completed Trips -->
+              <button 
+                *ngIf="isTripCompleted(booking)"
+                (click)="openReviewForm(booking)"
+                class="review-btn">
+                <mat-icon>star</mat-icon>
+                Rate & Review
+              </button>
+
+              <!-- Trip Status Indicator -->
+              <div class="trip-status-indicator" *ngIf="isTripUpcoming(booking)">
+                <mat-icon class="upcoming-icon">schedule</mat-icon>
+                <span>{{ getTripStatusText(booking) }}</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="SingleTrip__persondetails">
+            <div class="heading" style="font-weight: 600; font-size: large;">Passenger Details</div>
+
+            <p>
+              <mat-icon>email</mat-icon> 
+              <strong>Email:</strong> {{ booking?.email || 'N/A' }}
+            </p>
+            <p>
+              <mat-icon>phone</mat-icon> 
+              <strong>Phone:</strong> {{ booking?.phoneNumber || 'N/A' }}
+            </p>
+            
+            <div class="passengers-list">
+              <div *ngFor="let passenger of booking?.passengerDetails" class="passenger-card">
+                <h4>{{ passenger?.name || 'N/A' }}</h4>
+                <p>{{ passenger?.age || 'N/A' }} years, {{ passenger?.gender || 'N/A' }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Review Form Overlay -->
+  <app-review-form 
+    *ngIf="showReviewForm && selectedBooking"
+    [routeId]="'route1'"
+    [busId]="selectedBooking.busId"
+    [operatorName]="'RedBus Express'"
+    [bookingData]="selectedBooking"
+    (reviewSubmitted)="onReviewSubmitted()"
+    (formClosed)="closeReviewForm()">
+  </app-review-form>
+
+  <!-- Ticket Display Modal -->
+  <app-ticket-display 
+    [booking]="selectedTicket" 
+    [showModal]="showTicketModal"
+    (closeModal)="closeTicketModal()">
+  </app-ticket-display>
+</div>
+  

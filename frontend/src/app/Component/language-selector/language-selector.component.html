@@ -1,0 +1,34 @@
+<div class="language-selector">
+  <button 
+    (click)="toggleDropdown()"
+    class="language-btn">
+    <span class="language-flag">{{ getCurrentLanguageFlag() }}</span>
+    <span class="language-code">{{ currentLanguage.toUpperCase() }}</span>
+    <svg 
+      class="dropdown-arrow"
+      [class.rotated]="isDropdownOpen"
+      fill="none" 
+      stroke="currentColor" 
+      viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+    </svg>
+  </button>
+
+  <div *ngIf="isDropdownOpen" class="language-dropdown">
+    <div class="dropdown-header">Select Language</div>
+    <button 
+      *ngFor="let language of supportedLanguages"
+      (click)="selectLanguage(language.code)" 
+      class="language-option"
+      [class.active]="language.code === currentLanguage">
+      <span class="option-flag">{{ language.flag }}</span>
+      <span class="option-name">{{ language.name }}</span>
+      <span *ngIf="language.code === currentLanguage" class="checkmark">✓</span>
+    </button>
+  </div>
+
+  <!-- Backdrop -->
+  <div *ngIf="isDropdownOpen" 
+       (click)="isDropdownOpen = false" 
+       class="dropdown-backdrop"></div>
+</div>

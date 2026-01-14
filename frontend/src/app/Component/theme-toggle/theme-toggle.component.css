@@ -1,0 +1,81 @@
+.theme-toggle-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: 2px solid var(--border-color, #e0e0e0);
+  border-radius: 25px;
+  background: var(--bg-color, #ffffff);
+  color: var(--text-color, #333333);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  font-weight: 500;
+  outline: none;
+  min-width: 80px;
+}
+
+.theme-toggle-btn:hover {
+  background: var(--hover-bg-color, #f5f5f5);
+  border-color: var(--hover-border-color, #d0d0d0);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.theme-toggle-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.theme-icon {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.3s ease;
+}
+
+.theme-toggle-btn:hover .theme-icon {
+  transform: rotate(15deg);
+}
+
+.theme-text {
+  font-family: inherit;
+  letter-spacing: 0.5px;
+}
+
+/* Light theme styles */
+:host-context(.light-theme) .theme-toggle-btn {
+  --bg-color: #ffffff;
+  --text-color: #333333;
+  --border-color: #e0e0e0;
+  --hover-bg-color: #f8f9fa;
+  --hover-border-color: #d0d0d0;
+}
+
+/* Dark theme styles */
+:host-context(.dark-theme) .theme-toggle-btn {
+  --bg-color: #2d3748;
+  --text-color: #e2e8f0;
+  --border-color: #4a5568;
+  --hover-bg-color: #4a5568;
+  --hover-border-color: #718096;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .theme-toggle-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+    min-width: 70px;
+  }
+  
+  .theme-icon {
+    width: 16px;
+    height: 16px;
+  }
+}

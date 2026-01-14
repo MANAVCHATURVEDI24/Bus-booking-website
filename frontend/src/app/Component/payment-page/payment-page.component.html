@@ -1,0 +1,296 @@
+
+<!-- Professional Payment Container -->
+<div class="payment-container">
+    <!-- Header Section -->
+    <div class="payment-header">
+        <h1 class="payment-title">Complete Your Booking</h1>
+        <p class="payment-subtitle">Secure payment powered by industry-leading encryption</p>
+    </div>
+
+    <!-- Main Content -->
+    <div class="payment-content">
+        <!-- Left Section - Payment Methods -->
+        <div class="payment-left">
+            <!-- Offer Code Section -->
+            <div class="offer-section">
+                <div class="section-header">
+                    <mat-icon class="section-icon">local_offer</mat-icon>
+                    <h3>Apply Offer Code</h3>
+                </div>
+                <div class="offer-input-container">
+                    <input class="offer-input" placeholder="Enter promo code" />
+                    <button class="apply-btn">Apply</button>
+                </div>
+            </div>
+
+            <!-- Trust Indicators -->
+            <div class="trust-section">
+                <div class="trust-item">
+                    <mat-icon class="trust-icon">security</mat-icon>
+                    <div class="trust-text">
+                        <div class="trust-title">Safe & Secure</div>
+                        <div class="trust-desc">SSL Encrypted Payments</div>
+                    </div>
+                </div>
+                <div class="trust-item">
+                    <mat-icon class="trust-icon">verified</mat-icon>
+                    <div class="trust-text">
+                        <div class="trust-title">60M+ Transactions</div>
+                        <div class="trust-desc">Trusted by millions</div>
+                    </div>
+                </div>
+                <div class="trust-item">
+                    <mat-icon class="trust-icon">stars</mat-icon>
+                    <div class="trust-text">
+                        <div class="trust-title">10+ Years</div>
+                        <div class="trust-desc">Industry Experience</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Pay Section -->
+            <div class="quick-pay-section">
+                <div class="section-header">
+                    <mat-icon class="section-icon">flash_on</mat-icon>
+                    <h3>Quick Payment</h3>
+                </div>
+                <button class="stripe-pay-btn" (click)="makepayment()" [disabled]="isPaymentProcessing">
+                    <mat-icon *ngIf="!isPaymentProcessing">payment</mat-icon>
+                    <mat-icon *ngIf="isPaymentProcessing" class="spinning">hourglass_empty</mat-icon>
+                    <span *ngIf="!isPaymentProcessing">Pay with Stripe - ₹{{ passfare }}</span>
+                    <span *ngIf="isPaymentProcessing">Processing Payment...</span>
+                </button>
+            </div>
+
+            <!-- Payment Methods -->
+            <div class="payment-methods-section">
+                <div class="section-header">
+                    <mat-icon class="section-icon">credit_card</mat-icon>
+                    <h3>Other Payment Methods</h3>
+                </div>
+                
+                <div class="payment-methods">
+                    <!-- Credit/Debit Cards -->
+                    <div class="payment-method">
+                        <div class="method-header">
+                            <input type="radio" name="paymentMethod" id="cards" class="method-radio">
+                            <label for="cards" class="method-label">
+                                <mat-icon>credit_card</mat-icon>
+                                <span>Credit/Debit Cards</span>
+                            </label>
+                        </div>
+                        <div class="payment-icons">
+                            <img src="https://st.redbus.in/paas/images/mobile/v2/visa.png" alt="Visa" class="payment-icon">
+                            <img src="https://st.redbus.in/paas/images/mobile/v2/mastercard.png" alt="Mastercard" class="payment-icon">
+                            <img src="https://st.redbus.in/paas/images/web/v2/maestro.png" alt="Maestro" class="payment-icon">
+                        </div>
+                    </div>
+
+                    <!-- UPI -->
+                    <div class="payment-method">
+                        <div class="method-header">
+                            <input type="radio" name="paymentMethod" id="upi" class="method-radio">
+                            <label for="upi" class="method-label">
+                                <mat-icon>qr_code</mat-icon>
+                                <span>UPI Payment</span>
+                                <span class="new-badge">Popular</span>
+                            </label>
+                        </div>
+                        <div class="payment-icons">
+                            <img src="https://st.redbus.in/paas/images/web/v2/upi/gpay.svg" alt="GPay" class="payment-icon">
+                            <img src="https://st.redbus.in/paas/images/web/v2/upi/phonepe.svg" alt="PhonePe" class="payment-icon">
+                            <img src="https://st.redbus.in/paas/images/web/v2/upi/amazonpay.svg" alt="Amazon Pay" class="payment-icon">
+                        </div>
+                    </div>
+
+                    <!-- Net Banking -->
+                    <div class="payment-method">
+                        <div class="method-header">
+                            <input type="radio" name="paymentMethod" id="netbanking" class="method-radio">
+                            <label for="netbanking" class="method-label">
+                                <mat-icon>account_balance</mat-icon>
+                                <span>Net Banking</span>
+                            </label>
+                        </div>
+                        <div class="payment-icons">
+                            <img src="https://st.redbus.in/paas/images/web/v2/sbi.png" alt="SBI" class="payment-icon">
+                            <img src="https://st.redbus.in/paas/images/web/v2/hdfc.png" alt="HDFC" class="payment-icon">
+                            <img src="https://st.redbus.in/paas/images/web/v2/icici.png" alt="ICICI" class="payment-icon">
+                        </div>
+                    </div>
+
+                    <!-- Wallets -->
+                    <div class="payment-method">
+                        <div class="method-header">
+                            <input type="radio" name="paymentMethod" id="wallets" class="method-radio">
+                            <label for="wallets" class="method-label">
+                                <mat-icon>account_balance_wallet</mat-icon>
+                                <span>Digital Wallets</span>
+                            </label>
+                        </div>
+                        <div class="payment-icons">
+                            <img src="https://st.redbus.in/paas/images/web/v2/amazonpay.png" alt="Amazon Pay" class="payment-icon">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Right Section - Booking Summary -->
+        <div class="payment-right">
+            <!-- Trip Details Card -->
+            <div class="trip-card">
+                <div class="card-header">
+                    <mat-icon class="card-icon">directions_bus</mat-icon>
+                    <div class="operator-info">
+                        <h3 class="operator-name">{{ operatorname || 'Bus Service' }}</h3>
+                        <p class="bus-type">AC Seater • Premium</p>
+                    </div>
+                </div>
+
+                <div class="trip-details">
+                    <!-- Journey Info -->
+                    <div class="journey-section">
+                        <div class="journey-item">
+                            <div class="journey-location">
+                                <mat-icon class="location-icon">location_on</mat-icon>
+                                <div class="location-details">
+                                    <div class="location-name">{{ routedetails?.departureLocation?.name || 'Departure' }}</div>
+                                    <div class="location-time">{{ busdepauturetime || 'N/A' }}:00 • {{ bookingdate | date: 'MMM dd' }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="journey-divider">
+                            <div class="journey-line"></div>
+                            <mat-icon class="journey-arrow">arrow_downward</mat-icon>
+                        </div>
+                        
+                        <div class="journey-item">
+                            <div class="journey-location">
+                                <mat-icon class="location-icon">place</mat-icon>
+                                <div class="location-details">
+                                    <div class="location-name">{{ routedetails?.arrivalLocation?.name || 'Arrival' }}</div>
+                                    <div class="location-time">{{ busarrivaltime || 'N/A' }}:00 • {{ bookingdate | date: 'MMM dd' }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Passenger & Seat Info -->
+                    <div class="booking-info">
+                        <div class="info-row">
+                            <mat-icon class="info-icon">person</mat-icon>
+                            <div class="info-content">
+                                <span class="info-label">Passenger</span>
+                                <span class="info-value">{{ customerid?.name || 'Guest' }}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="info-row">
+                            <mat-icon class="info-icon">event_seat</mat-icon>
+                            <div class="info-content">
+                                <span class="info-label">Seats</span>
+                                <span class="info-value">{{ passseatarray.join(', ') || 'N/A' }}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="info-row">
+                            <mat-icon class="info-icon">calendar_today</mat-icon>
+                            <div class="info-content">
+                                <span class="info-label">Booking Date</span>
+                                <span class="info-value">{{ bookingdate | date: 'MMM dd, yyyy' }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fare Breakdown Card -->
+            <div class="fare-card">
+                <div class="card-header">
+                    <mat-icon class="card-icon">receipt</mat-icon>
+                    <h3>Fare Details</h3>
+                </div>
+                
+                <div class="fare-details">
+                    <div class="fare-row">
+                        <span class="fare-label">Base Fare</span>
+                        <span class="fare-value">₹{{ passfare || 0 }}</span>
+                    </div>
+                    <div class="fare-row">
+                        <span class="fare-label">Taxes & Fees</span>
+                        <span class="fare-value">₹0</span>
+                    </div>
+                    <div class="fare-divider"></div>
+                    <div class="fare-row total">
+                        <span class="fare-label">Total Amount</span>
+                        <span class="fare-value">₹{{ passfare || 0 }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Security Badges -->
+            <div class="security-badges">
+                <img src="https://s3.rdbuz.com/Images/webplatform/Common/Payment/master-card-secure-code.png" alt="Mastercard Secure" class="security-badge">
+                <img src="https://s3.rdbuz.com/Images/webplatform/Common/Payment/verified-by-visa.svg" alt="Verified by Visa" class="security-badge">
+                <img src="https://s3.rdbuz.com/Images/webplatform/Common/Payment/verisign-secured.png" alt="VeriSign Secured" class="security-badge">
+            </div>
+        </div>
+    </div>
+
+    <!-- Corner Book Button -->
+    <button class="corner-book-btn" (click)="showBookingConfirmation()" [disabled]="isPaymentProcessing">
+        <mat-icon>confirmation_number</mat-icon>
+        <span>Book Now</span>
+    </button>
+</div>
+
+<!-- Booking Confirmation Modal -->
+<div class="modal-overlay" *ngIf="showBookingModal" (click)="closeBookingModal()">
+    <div class="booking-modal" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <mat-icon class="success-icon">check_circle</mat-icon>
+            <h2>Booking Confirmed!</h2>
+            <button class="close-btn" (click)="closeBookingModal()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+        
+        <div class="modal-content">
+            <div class="booking-summary">
+                <div class="summary-row">
+                    <span class="summary-label">Booking ID:</span>
+                    <span class="summary-value">{{ currentBooking?._id || 'Generating...' }}</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Route:</span>
+                    <span class="summary-value">{{ routedetails?.departureLocation?.name }} → {{ routedetails?.arrivalLocation?.name }}</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Seats:</span>
+                    <span class="summary-value">{{ passseatarray.join(', ') }}</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Date:</span>
+                    <span class="summary-value">{{ bookingdate | date: 'fullDate' }}</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Amount Paid:</span>
+                    <span class="summary-value highlight">₹{{ passfare }}</span>
+                </div>
+            </div>
+            
+            <div class="modal-actions">
+                <button class="btn-secondary" (click)="closeBookingModal()">Close</button>
+                <button class="btn-primary" (click)="viewMyTrips()">View My Trips</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Ticket Display Modal -->
+<app-ticket-display 
+  [booking]="currentBooking" 
+  [showModal]="showTicketModal"
+  (closeModal)="closeTicketModal()">
+</app-ticket-display>

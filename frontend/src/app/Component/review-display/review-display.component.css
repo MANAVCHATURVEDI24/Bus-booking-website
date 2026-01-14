@@ -1,0 +1,62 @@
+.review-display {
+  transition: all 0.3s ease;
+}
+
+.rating-distribution {
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.dark-theme .rating-distribution {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.category-averages {
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.dark-theme .category-averages {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.review-item {
+  transition: all 0.2s ease;
+}
+
+.review-item:hover {
+  background: rgba(0, 0, 0, 0.01);
+  border-radius: 8px;
+  padding: 16px;
+  margin: -16px;
+  margin-bottom: 8px;
+}
+
+.dark-theme .review-item:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.category-ratings {
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 6px;
+  padding: 12px;
+}
+
+.dark-theme .category-ratings {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

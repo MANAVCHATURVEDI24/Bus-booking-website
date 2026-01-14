@@ -1,0 +1,121 @@
+/* Navbar Dark Mode Text Visibility */
+
+/* Light theme navbar */
+:host-context(.light-theme) nav {
+  background-color: #ffffff !important;
+  color: #1f2937 !important;
+}
+
+:host-context(.light-theme) nav * {
+  color: #1f2937 !important;
+}
+
+:host-context(.light-theme) nav .text-white {
+  color: #ffffff !important;
+}
+
+/* Dark theme navbar */
+:host-context(.dark-theme) nav {
+  background-color: #374151 !important;
+  color: #ffffff !important;
+  border-bottom: 1px solid #6b7280 !important;
+}
+
+:host-context(.dark-theme) nav * {
+  color: #ffffff !important;
+}
+
+:host-context(.dark-theme) nav p,
+:host-context(.dark-theme) nav span,
+:host-context(.dark-theme) nav a,
+:host-context(.dark-theme) nav button {
+  color: #ffffff !important;
+}
+
+:host-context(.dark-theme) nav .text-black,
+:host-context(.dark-theme) nav .sm\\:text-black {
+  color: #ffffff !important;
+}
+
+:host-context(.dark-theme) nav .text-white {
+  color: #ffffff !important;
+}
+
+:host-context(.dark-theme) nav .text-gray-600,
+:host-context(.dark-theme) nav .text-gray-700,
+:host-context(.dark-theme) nav .text-gray-800,
+:host-context(.dark-theme) nav .text-gray-900 {
+  color: #ffffff !important;
+}
+
+:host-context(.dark-theme) nav i {
+  color: #ffffff !important;
+}
+
+:host-context(.dark-theme) nav svg {
+  fill: #ffffff !important;
+  color: #ffffff !important;
+}
+
+/* Hover effects for dark theme */
+:host-context(.dark-theme) nav .hover\\:bg-gray-100:hover {
+  background-color: #4b5563 !important;
+}
+
+:host-context(.dark-theme) nav .group:hover svg {
+  fill: #ef4444 !important;
+}
+
+:host-context(.dark-theme) nav .group:hover p {
+  color: #ef4444 !important;
+}
+
+/* Material menu in dark theme */
+:host-context(.dark-theme) .mat-menu-panel {
+  background-color: #374151 !important;
+}
+
+:host-context(.dark-theme) .mat-menu-item {
+  color: #ffffff !important;
+}
+
+:host-context(.dark-theme) .mat-menu-item:hover {
+  background-color: #4b5563 !important;
+}
+
+/* Ensure all text is visible */
+:host-context(.dark-theme) * {
+  color: #ffffff !important;
+}
+
+/* Override any Tailwind classes */
+:host-context(.dark-theme) .text-gray-600,
+:host-context(.dark-theme) .text-gray-700,
+:host-context(.dark-theme) .text-gray-800,
+:host-context(.dark-theme) .text-gray-900 {
+  color: #ffffff !important;
+}
+
+/* Button specific fixes */
+:host-context(.dark-theme) button {
+  color: #ffffff !important;
+}
+
+:host-context(.dark-theme) button:hover {
+  background-color: #4b5563 !important;
+}
+
+/* Logo and brand text */
+:host-context(.dark-theme) .logo,
+:host-context(.dark-theme) .brand {
+  color: #ffffff !important;
+}
+
+/* Navigation links */
+:host-context(.dark-theme) .nav-link {
+  color: #ffffff !important;
+}
+
+:host-context(.dark-theme) .nav-link:hover {
+  color: #ef4444 !important;
+}

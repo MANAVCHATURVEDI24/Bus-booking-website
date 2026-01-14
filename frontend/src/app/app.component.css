@@ -1,0 +1,23 @@
+/* App component styles - Light theme only */
+app-root {
+  display: block;
+  min-height: 100vh;
+  opacity: 1;
+  visibility: visible;
+  background-color: #ffffff;
+  color: #000000;
+}
+
+/* Ensure content is visible */
+app-navbar, app-footer {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Ensure router outlet content is visible */
+router-outlet + * {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+}

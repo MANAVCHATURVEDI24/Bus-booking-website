@@ -1,0 +1,38 @@
+<div>
+    <app-sorting-bar></app-sorting-bar>
+    
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="loading-container">
+        <div class="loading-spinner"></div>
+        <p>Loading buses...</p>
+    </div>
+    
+    <!-- Error State -->
+    <div *ngIf="errorMessage && !isLoading" class="error-container">
+        <div class="error-icon">⚠️</div>
+        <p>{{ errorMessage }}</p>
+        <button (click)="loadBusData()" class="retry-button">Retry</button>
+    </div>
+    
+    <!-- No Buses Found -->
+    <div *ngIf="!isLoading && !errorMessage && matchedbus.length === 0" class="no-buses-container">
+        <div class="no-buses-icon">🚌</div>
+        <h3>No buses found</h3>
+        <p>Sorry, no buses are available for this route on the selected date.</p>
+        <p><strong>Route:</strong> {{ departurevar }} → {{ arrival }}</p>
+        <p><strong>Date:</strong> {{ date }}</p>
+    </div>
+    
+    <!-- Bus List -->
+    <div *ngIf="!isLoading && !errorMessage && matchedbus.length > 0">
+        <div *ngFor="let bus of matchedbus; index as i">
+            <div *ngFor="let key of getkeys()">
+                <div *ngIf="bus._id === key">
+                    <app-bus-box [rating]='bus.rating' [busid]="bus._id" [operatorname]="bus.operatorName" [bustype]="bus.busType"
+                        [departuretime]="bus.departureTime" [livetracking]="bus.liveTracking" [reschedulable]="bus.reschedulable" [filledseats]="seats[key]"
+                        [routedetails]="routes"></app-bus-box>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

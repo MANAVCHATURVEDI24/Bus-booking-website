@@ -1,0 +1,134 @@
+<div class="review-form-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+  <div class="review-form bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+    
+    <!-- Header -->
+    <div class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+      <h2 class="text-xl font-bold text-gray-900 dark:text-white">Write a Review</h2>
+      <button 
+        (click)="closeForm()"
+        class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 text-xl">
+        <i class="fa-solid fa-times"></i>
+      </button>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="checkingEligibility" class="p-6 text-center">
+      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+      <p class="text-gray-600 dark:text-gray-400">Checking eligibility...</p>
+    </div>
+
+    <!-- Not Eligible -->
+    <div *ngIf="!checkingEligibility && !canReview" class="p-6 text-center">
+      <i class="fa-solid fa-exclamation-triangle text-4xl text-yellow-500 mb-4"></i>
+      <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Unable to Review</h3>
+      <p class="text-gray-600 dark:text-gray-400 mb-4">
+        You can only review routes after completing your journey. This trip must be completed (past the departure date) to leave a review.
+      </p>
+      <button 
+        (click)="closeForm()"
+        class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 rounded-lg">
+        Close
+      </button>
+    </div>
+
+    <!-- Review Form -->
+    <form *ngIf="!checkingEligibility && canReview" [formGroup]="reviewForm" (ngSubmit)="onSubmit()" class="p-6">
+      
+      <!-- Operator Info -->
+      <div class="mb-6 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+        <h3 class="font-semibold text-gray-900 dark:text-white mb-1">{{ operatorName }}</h3>
+        <p class="text-sm text-gray-600 dark:text-gray-400">Share your experience with other travelers</p>
+      </div>
+
+      <!-- Overall Rating -->
+      <div class="mb-6">
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          Overall Rating *
+        </label>
+        <div class="flex items-center gap-4">
+          <app-star-rating 
+            [rating]="reviewForm.get('rating')?.value || 0"
+            (ratingChange)="onRatingChange($event)"
+            size="large">
+          </app-star-rating>
+          <span class="text-sm text-gray-600 dark:text-gray-400">
+            {{ reviewForm.get('rating')?.value > 0 ? 'Rating: ' + reviewForm.get('rating')?.value + '/5' : 'Click to rate' }}
+          </span>
+        </div>
+        <div class="text-red-500 text-sm mt-1">{{ getFieldError('rating') }}</div>
+      </div>
+
+      <!-- Category Ratings -->
+      <div class="mb-6">
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+          Rate Different Aspects *
+        </label>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div *ngFor="let category of categories" class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+            <div class="flex items-center gap-2">
+              <i [class]="'fa-solid ' + category.icon + ' text-gray-600 dark:text-gray-400'"></i>
+              <span class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ category.label }}</span>
+            </div>
+            <div class="flex flex-col items-end">
+              <app-star-rating 
+                [rating]="reviewForm.get('categories.' + category.key)?.value || 0"
+                (ratingChange)="onCategoryRatingChange(category.key, $event)"
+                size="small">
+              </app-star-rating>
+              <div class="text-red-500 text-xs mt-1">{{ getCategoryError(category.key) }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Journey Date -->
+      <div class="mb-6">
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          Journey Date *
+        </label>
+        <input 
+          type="date" 
+          formControlName="journeyDate"
+          [max]="maxDate"
+          class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+        <div class="text-red-500 text-sm mt-1">{{ getFieldError('journeyDate') }}</div>
+      </div>
+
+      <!-- Review Text -->
+      <div class="mb-6">
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          Your Review *
+        </label>
+        <textarea 
+          formControlName="reviewText"
+          rows="4"
+          placeholder="Share your experience... (minimum 10 characters)"
+          class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 resize-none">
+        </textarea>
+        <div class="flex justify-between items-center mt-1">
+          <div class="text-red-500 text-sm">{{ getFieldError('reviewText') }}</div>
+          <div class="text-sm text-gray-500 dark:text-gray-400">
+            {{ reviewForm.get('reviewText')?.value?.length || 0 }}/500
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="flex items-center justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
+        <button 
+          type="button"
+          (click)="closeForm()"
+          class="px-6 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors">
+          Cancel
+        </button>
+        <button 
+          type="submit"
+          [disabled]="submitting || !reviewForm.valid"
+          class="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white px-6 py-2 rounded-lg transition-colors flex items-center gap-2">
+          <span *ngIf="submitting" class="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></span>
+          {{ submitting ? 'Submitting...' : 'Submit Review' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

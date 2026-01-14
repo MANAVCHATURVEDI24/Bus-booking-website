@@ -1,0 +1,59 @@
+<div class="interactive-map-container" [style.height]="height">
+  <div #mapContainer class="map-container w-full h-full relative">
+    <!-- Loading state -->
+    <div *ngIf="!isMapLoaded" class="loading-overlay">
+      <div class="loading-spinner"></div>
+      <p>Loading map...</p>
+    </div>
+  </div>
+  
+  <!-- Map overlay controls -->
+  <div class="map-overlay-controls" *ngIf="isMapLoaded">
+    <div class="control-group">
+      <button 
+        class="control-btn"
+        (click)="toggleTraffic()"
+        title="Toggle Traffic Layer">
+        <i class="fa-solid fa-road"></i>
+      </button>
+      
+      <button 
+        class="control-btn"
+        (click)="centerMap()"
+        title="Center on Route"
+        *ngIf="route">
+        <i class="fa-solid fa-crosshairs"></i>
+      </button>
+      
+      <button 
+        class="control-btn"
+        (click)="toggleSatellite()"
+        title="Toggle Satellite View">
+        <i class="fa-solid fa-satellite"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Traffic legend -->
+  <div class="traffic-legend" *ngIf="trafficInfo.length > 0">
+    <h4 class="legend-title">Traffic Conditions</h4>
+    <div class="legend-items">
+      <div class="legend-item low">
+        <span class="legend-color"></span>
+        <span>Light Traffic</span>
+      </div>
+      <div class="legend-item moderate">
+        <span class="legend-color"></span>
+        <span>Moderate Traffic</span>
+      </div>
+      <div class="legend-item high">
+        <span class="legend-color"></span>
+        <span>Heavy Traffic</span>
+      </div>
+      <div class="legend-item severe">
+        <span class="legend-color"></span>
+        <span>Severe Congestion</span>
+      </div>
+    </div>
+  </div>
+</div>

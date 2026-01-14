@@ -1,0 +1,40 @@
+<div class="review-modal">
+  <!-- Modal Header -->
+  <div class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+    <h2 class="text-xl font-bold text-gray-900 dark:text-white">
+      Reviews for {{ data.operatorName }}
+    </h2>
+    <div class="flex items-center gap-3">
+      <button 
+        (click)="openReviewForm()"
+        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm transition-colors">
+        <i class="fa-solid fa-plus mr-2"></i>Write Review
+      </button>
+      <button 
+        (click)="closeModal()"
+        class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 text-xl">
+        <i class="fa-solid fa-times"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Reviews Display -->
+  <div class="p-6 max-h-[70vh] overflow-y-auto">
+    <app-review-display 
+      [routeId]="data.routeId"
+      [showSummary]="true"
+      [maxReviews]="10">
+    </app-review-display>
+  </div>
+
+  <!-- Review Form Overlay -->
+  <app-review-form 
+    *ngIf="showReviewForm"
+    [routeId]="data.routeId"
+    [busId]="data.busId"
+    [operatorName]="data.operatorName"
+    [bookingData]="null"
+    (reviewSubmitted)="onReviewSubmitted()"
+    (formClosed)="closeReviewForm()">
+  </app-review-form>
+</div>

@@ -1,0 +1,49 @@
+/* ========================================
+   SIMPLIFIED DARK MODE OVERRIDE
+   HIGHEST PRIORITY CSS OVERRIDES
+   ======================================== */
+
+/* BASIC DARK MODE SETUP */
+.dark, .dark-theme {
+  background-color: #111827 !important;
+  color: #ffffff !important;
+}
+
+/* FORCE ALL TEXT TO BE WHITE IN DARK MODE */
+.dark *, .dark-theme * {
+  color: #ffffff !important;
+}
+
+/* SPECIFIC FORM ELEMENTS */
+.dark label, .dark-theme label,
+.dark .form-label, .dark-theme .form-label,
+.dark .preference-label, .dark-theme .preference-label,
+.dark .checkbox-label, .dark-theme .checkbox-label,
+.dark .duration-label, .dark-theme .duration-label {
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+
+/* INPUT ELEMENTS */
+.dark input, .dark-theme input,
+.dark textarea, .dark-theme textarea {
+  background-color: #374151 !important;
+  color: #ffffff !important;
+  border-color: #4b5563 !important;
+}
+
+.dark input::placeholder, .dark-theme input::placeholder,
+.dark textarea::placeholder, .dark-theme textarea::placeholder {
+  color: #9ca3af !important;
+}
+
+/* BUTTONS */
+.dark button, .dark-theme button {
+  color: inherit !important;
+}
+
+/* KEEP ICONS COLORED */
+.dark .fa-play, .dark-theme .fa-play { color: #22c55e !important; }
+.dark .fa-stop, .dark-theme .fa-stop { color: #ef4444 !important; }
+.dark .fa-map-pin, .dark-theme .fa-map-pin { color: #3b82f6 !important; }
+.dark .fa-clock, .dark .fa-cog, .dark-theme .fa-clock, .dark-theme .fa-cog { color: #6b7280 !important; }

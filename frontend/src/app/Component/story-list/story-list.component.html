@@ -1,0 +1,178 @@
+<div class="story-list-container">
+  <!-- Filters and Search -->
+  <div class="filters-section theme-bg-card mb-6 p-4 rounded-lg">
+    <div class="flex flex-col md:flex-row gap-4 items-center justify-between">
+      
+      <!-- Category Filter -->
+      <div class="category-filter">
+        <div class="flex flex-wrap gap-2">
+          <button 
+            *ngFor="let category of categories"
+            (click)="onCategoryChange(category.value)"
+            [class]="'category-btn ' + (selectedCategory === category.value ? 'active' : '')">
+            <i [class]="category.icon + ' mr-2'"></i>
+            {{ category.label }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Search -->
+      <div class="search-section">
+        <div class="relative">
+          <input 
+            type="text" 
+            [(ngModel)]="searchTerm"
+            (input)="onSearch()"
+            placeholder="Search stories, routes, or tags..."
+            class="search-input">
+          <i class="fas fa-search absolute right-3 top-3 theme-text-secondary"></i>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="flex items-center justify-center py-12">
+      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-main-color"></div>
+      <span class="ml-3 theme-text-primary">Loading stories...</span>
+    </div>
+  </div>
+
+  <!-- Stories Grid -->
+  <div *ngIf="!isLoading" class="stories-grid">
+    
+    <!-- No Stories Message -->
+    <div *ngIf="filteredStories.length === 0" class="no-stories theme-bg-card p-8 rounded-lg text-center">
+      <i class="fas fa-book-open text-4xl theme-text-secondary mb-4"></i>
+      <h3 class="text-xl font-semibold theme-text-primary mb-2">No Stories Found</h3>
+      <p class="theme-text-secondary">
+        {{ searchTerm ? 'Try adjusting your search terms' : 'Be the first to share your travel story!' }}
+      </p>
+    </div>
+
+    <!-- Story Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div 
+        *ngFor="let story of filteredStories" 
+        class="story-card theme-bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer"
+        (click)="viewStory(story._id!)">
+        
+        <!-- Story Image -->
+        <div class="story-image" *ngIf="story.imageUrl">
+          <img [src]="story.imageUrl" [alt]="story.title" class="w-full h-48 object-cover">
+        </div>
+        
+        <!-- Story Content -->
+        <div class="story-content p-4">
+          
+          <!-- Category Badge -->
+          <div class="flex items-center justify-between mb-2">
+            <span class="category-badge">
+              <i [class]="getCategoryIcon(story.category) + ' mr-1'"></i>
+              {{ story.category | titlecase }}
+            </span>
+            <span class="text-sm theme-text-secondary">{{ getTimeAgo(story.createdAt) }}</span>
+          </div>
+
+          <!-- Title -->
+          <h3 class="story-title theme-text-primary font-semibold text-lg mb-2 line-clamp-2">
+            {{ story.title }}
+          </h3>
+
+          <!-- Route Info -->
+          <div class="route-info mb-3">
+            <div class="flex items-center text-sm theme-text-secondary">
+              <i class="fas fa-route mr-2"></i>
+              <span>{{ story.route.from }} → {{ story.route.to }}</span>
+            </div>
+          </div>
+
+          <!-- Content Preview -->
+          <p class="story-preview theme-text-secondary text-sm mb-4 line-clamp-3">
+            {{ story.content }}
+          </p>
+
+          <!-- Tags -->
+          <div class="tags mb-4" *ngIf="story.tags.length > 0">
+            <span 
+              *ngFor="let tag of story.tags.slice(0, 3)" 
+              class="tag">
+              #{{ tag }}
+            </span>
+          </div>
+
+          <!-- Story Footer -->
+          <div class="story-footer flex items-center justify-between">
+            
+            <!-- Author Info -->
+            <div class="author-info flex items-center">
+              <div class="author-avatar">
+                <i class="fas fa-user-circle text-2xl theme-text-secondary"></i>
+              </div>
+              <div class="ml-2">
+                <p class="text-sm font-medium theme-text-primary">{{ story.userName }}</p>
+              </div>
+            </div>
+
+            <!-- Interaction Buttons -->
+            <div class="interaction-buttons flex items-center space-x-3">
+              
+              <!-- Like Button -->
+              <button 
+                (click)="$event.stopPropagation(); likeStory(story)"
+                [class]="'like-btn ' + (isLikedByUser(story) ? 'liked' : '')">
+                <i class="fas fa-heart mr-1"></i>
+                <span>{{ story.likes.length }}</span>
+              </button>
+
+              <!-- Comments Count -->
+              <div class="comments-count">
+                <i class="fas fa-comment mr-1 theme-text-secondary"></i>
+                <span class="theme-text-secondary">{{ story.comments.length }}</span>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Pagination -->
+  <div *ngIf="!isLoading && totalPages > 1" class="pagination-container mt-8">
+    <div class="flex justify-center">
+      <div class="pagination">
+        
+        <!-- Previous Button -->
+        <button 
+          (click)="onPageChange(currentPage - 1)"
+          [disabled]="currentPage === 1"
+          class="pagination-btn">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+
+        <!-- Page Numbers -->
+        <button 
+          *ngFor="let page of [].constructor(totalPages); let i = index"
+          (click)="onPageChange(i + 1)"
+          [class]="'pagination-btn ' + (currentPage === i + 1 ? 'active' : '')">
+          {{ i + 1 }}
+        </button>
+
+        <!-- Next Button -->
+        <button 
+          (click)="onPageChange(currentPage + 1)"
+          [disabled]="currentPage === totalPages"
+          class="pagination-btn">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,15 @@
+<div class="star-rating" (mouseleave)="onMouseLeave()">
+  <span 
+    *ngFor="let star of stars" 
+    class="star-container"
+    [class.readonly]="readonly"
+    (click)="onStarClick(star)"
+    (mouseenter)="onStarHover(star)">
+    
+    <i class="fa-solid fa-star" [ngClass]="getStarClass(star)"></i>
+  </span>
+  
+  <span *ngIf="rating > 0" class="rating-text ml-2 text-sm text-gray-600 dark:text-gray-400">
+    {{ rating }}/{{ maxRating }}
+  </span>
+</div>

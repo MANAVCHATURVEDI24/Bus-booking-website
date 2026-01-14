@@ -1,0 +1,207 @@
+<div class="forum-list-container">
+  <!-- Filters and Search -->
+  <div class="filters-section theme-bg-card mb-6 p-4 rounded-lg">
+    <div class="flex flex-col md:flex-row gap-4 items-center justify-between">
+      
+      <!-- Category Filter -->
+      <div class="category-filter">
+        <div class="flex flex-wrap gap-2">
+          <button 
+            *ngFor="let category of categories"
+            (click)="onCategoryChange(category.value)"
+            [class]="'category-btn ' + (selectedCategory === category.value ? 'active' : '')">
+            <i [class]="category.icon + ' mr-2'"></i>
+            {{ category.label }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Search -->
+      <div class="search-section">
+        <div class="relative">
+          <input 
+            type="text" 
+            [(ngModel)]="searchTerm"
+            (input)="onSearch()"
+            placeholder="Search discussions..."
+            class="search-input">
+          <i class="fas fa-search absolute right-3 top-3 theme-text-secondary"></i>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="flex items-center justify-center py-12">
+      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-main-color"></div>
+      <span class="ml-3 theme-text-primary">Loading discussions...</span>
+    </div>
+  </div>
+
+  <!-- Forum Posts -->
+  <div *ngIf="!isLoading" class="forum-posts">
+    
+    <!-- No Posts Message -->
+    <div *ngIf="filteredPosts.length === 0" class="no-posts theme-bg-card p-8 rounded-lg text-center">
+      <i class="fas fa-comments text-4xl theme-text-secondary mb-4"></i>
+      <h3 class="text-xl font-semibold theme-text-primary mb-2">No Discussions Found</h3>
+      <p class="theme-text-secondary">
+        {{ searchTerm ? 'Try adjusting your search terms' : 'Be the first to start a discussion!' }}
+      </p>
+    </div>
+
+    <!-- Forum Post List -->
+    <div class="forum-post-list space-y-4">
+      <div 
+        *ngFor="let post of filteredPosts" 
+        class="forum-post-card theme-bg-card rounded-lg p-4 border theme-border hover:shadow-lg transition-shadow cursor-pointer"
+        (click)="viewForumPost(post._id!)">
+        
+        <div class="flex items-start space-x-4">
+          
+          <!-- Post Icon -->
+          <div class="post-icon">
+            <div class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
+              <i [class]="getCategoryIcon(post.category) + ' text-xl theme-text-secondary'"></i>
+            </div>
+          </div>
+
+          <!-- Post Content -->
+          <div class="post-content flex-1">
+            
+            <!-- Post Header -->
+            <div class="post-header flex items-center justify-between mb-2">
+              <div class="flex items-center space-x-2">
+                
+                <!-- Sticky Badge -->
+                <span *ngIf="post.isSticky" class="sticky-badge">
+                  <i class="fas fa-thumbtack mr-1"></i>
+                  Pinned
+                </span>
+                
+                <!-- Closed Badge -->
+                <span *ngIf="post.isClosed" class="closed-badge">
+                  <i class="fas fa-lock mr-1"></i>
+                  Closed
+                </span>
+                
+                <!-- Category Badge -->
+                <span class="category-badge">
+                  <i [class]="getCategoryIcon(post.category) + ' mr-1'"></i>
+                  {{ getCategoryLabel(post.category) }}
+                </span>
+                
+              </div>
+              
+              <!-- Post Time -->
+              <span class="text-sm theme-text-secondary">{{ getTimeAgo(post.createdAt) }}</span>
+            </div>
+
+            <!-- Post Title -->
+            <h3 class="post-title theme-text-primary font-semibold text-lg mb-2 hover:text-main-color transition-colors">
+              {{ post.title }}
+            </h3>
+
+            <!-- Post Preview -->
+            <p class="post-preview theme-text-secondary text-sm mb-3 line-clamp-2">
+              {{ post.content }}
+            </p>
+
+            <!-- Tags -->
+            <div class="tags mb-3" *ngIf="post.tags.length > 0">
+              <span 
+                *ngFor="let tag of post.tags.slice(0, 4)" 
+                class="tag">
+                #{{ tag }}
+              </span>
+            </div>
+
+            <!-- Post Footer -->
+            <div class="post-footer flex items-center justify-between">
+              
+              <!-- Author Info -->
+              <div class="author-info flex items-center">
+                <div class="author-avatar">
+                  <i class="fas fa-user-circle text-xl theme-text-secondary"></i>
+                </div>
+                <div class="ml-2">
+                  <p class="text-sm font-medium theme-text-primary">{{ post.userName }}</p>
+                </div>
+              </div>
+
+              <!-- Post Stats -->
+              <div class="post-stats flex items-center space-x-4 text-sm theme-text-secondary">
+                
+                <!-- Views -->
+                <div class="flex items-center">
+                  <i class="fas fa-eye mr-1"></i>
+                  <span>{{ post.views }}</span>
+                </div>
+
+                <!-- Replies -->
+                <div class="flex items-center">
+                  <i class="fas fa-reply mr-1"></i>
+                  <span>{{ post.replies.length }}</span>
+                </div>
+
+                <!-- Last Activity -->
+                <div class="flex items-center">
+                  <i class="fas fa-clock mr-1"></i>
+                  <span>{{ getLastReplyTime(post) }}</span>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Last Reply Info -->
+            <div *ngIf="post.replies.length > 0" class="last-reply mt-2 pt-2 border-t theme-border">
+              <div class="flex items-center text-sm theme-text-secondary">
+                <i class="fas fa-reply mr-2"></i>
+                <span>Last reply by <strong class="theme-text-primary">{{ getLastReplyUser(post) }}</strong></span>
+                <span class="ml-2">{{ getLastReplyTime(post) }}</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Pagination -->
+  <div *ngIf="!isLoading && totalPages > 1" class="pagination-container mt-8">
+    <div class="flex justify-center">
+      <div class="pagination">
+        
+        <!-- Previous Button -->
+        <button 
+          (click)="onPageChange(currentPage - 1)"
+          [disabled]="currentPage === 1"
+          class="pagination-btn">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+
+        <!-- Page Numbers -->
+        <button 
+          *ngFor="let page of [].constructor(totalPages); let i = index"
+          (click)="onPageChange(i + 1)"
+          [class]="'pagination-btn ' + (currentPage === i + 1 ? 'active' : '')">
+          {{ i + 1 }}
+        </button>
+
+        <!-- Next Button -->
+        <button 
+          (click)="onPageChange(currentPage + 1)"
+          [disabled]="currentPage === totalPages"
+          class="pagination-btn">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+
+      </div>
+    </div>
+  </div>
+
+</div>

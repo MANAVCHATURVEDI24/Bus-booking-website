@@ -1,0 +1,73 @@
+.review-form-overlay {
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.3s ease-out;
+}
+
+.review-form {
+  animation: slideUp 0.3s ease-out;
+  max-height: 90vh;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Custom scrollbar for the form */
+.review-form::-webkit-scrollbar {
+  width: 6px;
+}
+
+.review-form::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.review-form::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.review-form::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+.dark-theme .review-form::-webkit-scrollbar-track {
+  background: #374151;
+}
+
+.dark-theme .review-form::-webkit-scrollbar-thumb {
+  background: #6b7280;
+}
+
+.dark-theme .review-form::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}

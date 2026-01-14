@@ -1,0 +1,41 @@
+.review-modal {
+  background: white;
+  border-radius: 8px;
+  max-height: 90vh;
+  overflow: hidden;
+}
+
+.dark-theme .review-modal {
+  background: #1f2937;
+}
+
+/* Custom scrollbar */
+.review-modal ::-webkit-scrollbar {
+  width: 6px;
+}
+
+.review-modal ::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.review-modal ::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.review-modal ::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+.dark-theme .review-modal ::-webkit-scrollbar-track {
+  background: #374151;
+}
+
+.dark-theme .review-modal ::-webkit-scrollbar-thumb {
+  background: #6b7280;
+}
+
+.dark-theme .review-modal ::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}

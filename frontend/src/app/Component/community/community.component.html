@@ -1,0 +1,56 @@
+<div class="community-container theme-bg-primary">
+  <!-- Header Section -->
+  <div class="community-header theme-bg-card">
+    <div class="container mx-auto px-4 py-8">
+      <div class="text-center">
+        <h1 class="text-4xl font-bold theme-text-primary mb-4">Travel Community</h1>
+        <p class="text-lg theme-text-secondary mb-6">Share your bus travel experiences, tips, and connect with fellow travelers</p>
+        
+        <!-- Action Button -->
+        <button 
+          (click)="navigateToCreate()"
+          class="bg-main-color text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors">
+          <i class="fas fa-plus mr-2"></i>
+          {{ activeTab === 'stories' ? 'Share Your Story' : 'Start Discussion' }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation Tabs -->
+  <div class="community-nav theme-bg-card border-b theme-border">
+    <div class="container mx-auto px-4">
+      <div class="flex space-x-8">
+        <button 
+          (click)="setActiveTab('stories')"
+          [class]="'tab-button ' + (activeTab === 'stories' ? 'active' : '')">
+          <i class="fas fa-book-open mr-2"></i>
+          Travel Stories
+        </button>
+        <button 
+          (click)="setActiveTab('forum')"
+          [class]="'tab-button ' + (activeTab === 'forum' ? 'active' : '')">
+          <i class="fas fa-comments mr-2"></i>
+          Discussion Forum
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content Area -->
+  <div class="community-content">
+    <div class="container mx-auto px-4 py-6">
+      
+      <!-- Stories Tab Content -->
+      <div *ngIf="activeTab === 'stories'">
+        <app-story-list></app-story-list>
+      </div>
+
+      <!-- Forum Tab Content -->
+      <div *ngIf="activeTab === 'forum'">
+        <app-forum-list></app-forum-list>
+      </div>
+
+    </div>
+  </div>
+</div>
