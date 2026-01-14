@@ -1,0 +1,12 @@
+{
+  "name": "tedbus",
+  "version": "1.0.0",
+  "description": "Bus booking platform built with MEAN stack",
+  "scripts": {
+    "build": "cd frontend && npm install && npm run build:prod",
+    "start": "cd frontend/server && npm start"
+  },
+  "keywords": ["bus", "booking", "angular", "nodejs", "mongodb"],
+  "author": "Girish Maharana",
+  "license": "MIT"
+}
